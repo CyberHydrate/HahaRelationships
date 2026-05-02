@@ -14,7 +14,9 @@ public class PlayerData
     public string characteristic3;
     public float heartWallWidth;
     public int stepCount;
-    public PlayerData(string playerName, string npcName, string playerGender, string npcGender, string relationship, string characteristic1, string characteristic2, string characteristic3, float heartWallWidth, int stepCount)
+    public int playerhp;
+    public int npchp;
+    public PlayerData(string playerName, string npcName, string playerGender, string npcGender, string relationship, string characteristic1, string characteristic2, string characteristic3, float heartWallWidth, int stepCount, int playerhp, int npchp)
     {
         this.playerName = playerName;
         this.npcName = npcName;
@@ -25,6 +27,9 @@ public class PlayerData
         this.characteristic2 = characteristic2;
         this.characteristic3 = characteristic3;
         this.heartWallWidth = heartWallWidth;
+        this.stepCount = stepCount;
+        this.playerhp = playerhp;
+        this.npchp = npchp;
     }
 }
 public class PlayerDataManager
@@ -36,5 +41,5 @@ public class PlayerDataManager
 
     private PlayerDataManager() { }//构造函数私有化，确保外部无法实例化
     #endregion
-    public PlayerData playerData = new PlayerData("", "", "", "", "", "", "", "", 0f, 0);
+    public PlayerData playerData = new PlayerData("", "", "", "", "", "", "", "", 0f, 0, 0, 0);
 }
