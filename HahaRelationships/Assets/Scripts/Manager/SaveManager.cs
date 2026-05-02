@@ -1,33 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 [Serializable]
-public class SaveData
-{
-    public string playerName;
-    public string npcName;
-    public string playerGender;
-    public string npcGender;
-    public string relationship;
-    public string characteristic1;
-    public string characteristic2;
-    public string characteristic3;
-    public float heartWallWidth;
-    public SaveData(string playerName, string npcName, string playerGender, string npcGender, string relationship, string characteristic1, string characteristic2, string characteristic3, float heartWallWidth)
-    {
-        this.playerName = playerName;
-        this.npcName = npcName;
-        this.playerGender = playerGender;
-        this.npcGender = npcGender;
-        this.relationship = relationship;
-        this.characteristic1 = characteristic1;
-        this.characteristic2 = characteristic2;
-        this.characteristic3 = characteristic3;
-        this.heartWallWidth = heartWallWidth;
-    }
-}
+
 
 public class SaveManager
 {
@@ -44,8 +19,7 @@ public class SaveManager
     {
         return Application.persistentDataPath + "/save.json";
     }
-    //保存数据到文件
-    public void SaveData(SaveData data)
+    public void SaveData(PlayerData data)
     {
         string path = GetSavePath();
         string json = JsonUtility.ToJson(data);
@@ -55,16 +29,17 @@ public class SaveManager
     //检测存档是否存在
     public bool CheckSaveFile()
     {
+        Debug.Log("Checking save file at: " + GetSavePath());
         string path = GetSavePath();
         return File.Exists(path);
     }
     
-    //加载数据
-    public SaveData LoadData()
+
+    public void LoadData()
     {
         string path = GetSavePath();
-        SaveData data= JsonUtility.FromJson<SaveData>(File.ReadAllText(path));
-        Debug.Log(data.playerName);
-        return data;
+        PlayerData data= JsonUtility.FromJson<PlayerData>(File.ReadAllText(path));
+        PlayerDataManager.Instance.playerData = data;
+        Debug.Log(data.playerName+data.npcName+data.playerGender+data.npcGender+data.relationship+data.characteristic1+data.characteristic2+data.characteristic3);
     }
 }

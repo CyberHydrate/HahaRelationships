@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameSetupPanel : MonoBehaviour
+public class MainPanel : MonoBehaviour
 {
     //这个脚本负责在游戏状态切换时显示或隐藏初始界面
-    [Header("选择界面")]
+    [Header("初始界面")]
     public GameObject content;
     private void OnEnable()
     {
@@ -24,6 +24,6 @@ public class GameSetupPanel : MonoBehaviour
     }
     void OnStateChanged(GameState state)
     {
-        content.SetActive(state == GameState.GameSelect);
+        content.SetActive(state == GameState.MainMenu);
     }
 }

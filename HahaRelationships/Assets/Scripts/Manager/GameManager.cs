@@ -6,7 +6,6 @@ public enum GameState
 {
     MainMenu,   // 主菜单
     GameSelect,   // 游戏选择界面
-    GameSetup,    // 游戏设置
     Playing,    // 游戏进行中
     Pause,      // 暂停
     GameOver    // 游戏结束
@@ -33,9 +32,9 @@ public class GameManager : MonoBehaviour
     public GameState CurrentState { get; private set; }
 
     public delegate void StateChangeEvent(GameState newState);
-    
+
     public event StateChangeEvent OnGameStateChanged;
-    
+
     public void SwitchState(GameState newState)
     {
         CurrentState = newState;
@@ -45,6 +44,10 @@ public class GameManager : MonoBehaviour
             case GameState.MainMenu:
                 // 进入主菜单时要做的事，比如显示主菜单UI、停止游戏逻辑等
                 LoadScene("MainMenu");
+                break;
+
+            case GameState.GameSelect:
+                // 进入游戏选择界面时要做的事
                 break;
 
             case GameState.Playing:
@@ -59,11 +62,12 @@ public class GameManager : MonoBehaviour
 
             case GameState.GameOver:
                 // 游戏结束时要做的事，比如显示结束UI、停止所有游戏逻辑等
+                Time.timeScale = 0;
                 break;
         }
         // 触发状态改变事件，通知其他系统
         OnGameStateChanged?.Invoke(newState);
-        }
+    }
 
     #endregion
 
@@ -88,9 +92,11 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    //游戏退出时自动存档
+    #region 退出自动存档(目前不用)
     private void OnApplicationQuit()
     {
-        SaveManager.Instance.SaveData(new SaveData("PlayerName", "NPCName", "PlayerGender", "NPCGender", "Relationship", "Characteristic1", "Characteristic2", "Characteristic3", 0f));
+        //SaveManager.Instance.SaveData(PlayerDataManager.Instance.playerData);
     }
+    #endregion
 }
+    

@@ -12,7 +12,15 @@ public class LoadButton : MonoBehaviour
         loadBtn.onClick.RemoveAllListeners();
         loadBtn.onClick.AddListener(() =>
         {
-            SaveManager.Instance.LoadData();
+            if(SaveManager.Instance.CheckSaveFile())
+            {
+                SaveManager.Instance.LoadData();
+                GameManager.Instance.SwitchState(GameState.Playing);
+            }
+            else
+            {
+
+            }
         });
     }
 }
