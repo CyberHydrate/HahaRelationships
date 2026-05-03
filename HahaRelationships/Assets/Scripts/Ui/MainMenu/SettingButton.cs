@@ -6,6 +6,7 @@ public class SettingButton : MonoBehaviour
 {
     public Button setBtn;
     public Button changeBtn;
+    public Button cancelBtn;
     public GameObject settingPanel;
     public TMP_InputField screenWidthInput;
     public TMP_InputField screenHeightInput;
@@ -16,11 +17,18 @@ public class SettingButton : MonoBehaviour
         setBtn.onClick.AddListener(() =>
         {
             settingPanel.SetActive(true);
+            screenWidthInput.text = SettingDataManager.Instance.settingData.screenWidth.ToString();
+            screenHeightInput.text = SettingDataManager.Instance.settingData.screenHeight.ToString();
         });
         changeBtn.onClick.RemoveAllListeners();
         changeBtn.onClick.AddListener(() =>
         {
             ChangeSet();
+            settingPanel.SetActive(false);
+        });
+        cancelBtn.onClick.RemoveAllListeners();
+        cancelBtn.onClick.AddListener(() =>
+        {
             settingPanel.SetActive(false);
         });
     }

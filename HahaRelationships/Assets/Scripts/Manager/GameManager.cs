@@ -13,7 +13,6 @@ public enum GameState
 public class GameManager : MonoBehaviour
 {
     #region 单例模式实现
-    //单例模式，确保全局只有一个GameManager实例
     public static GameManager Instance { get; private set; }
     void Awake()
     {
