@@ -2642,6 +2642,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1646690947
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1646690949}
+  - component: {fileID: 1646690948}
+  m_Layer: 0
+  m_Name: MapRandomGenerater
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1646690948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646690947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bd6d3b273cf7e14385c0a0e80b9e609, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EmptyPrefab: {fileID: 4804762698030940070, guid: 3e1f580dbc838f74491490ffa5523abc, type: 3}
+  EventPrefab: {fileID: 8735528547370399755, guid: f742ce6d9489a584a9e878d1240b0b5f, type: 3}
+  SignificantPrefab: {fileID: 8041160545754768747, guid: 4bbcbbbad40ea2041871471ed36a9c20, type: 3}
+  PlanPrefab: {fileID: 822886685882900702, guid: 3777c54d81ae3634dba13de042300005, type: 3}
+  PlanInterval: 7
+--- !u!4 &1646690949
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646690947}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.025440216, y: -0.11447334, z: 0.02579689}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1669846513
 GameObject:
   m_ObjectHideFlags: 0
@@ -3519,3 +3568,4 @@ SceneRoots:
   - {fileID: 1512488911}
   - {fileID: 1162952275}
   - {fileID: 1876417748}
+  - {fileID: 1646690949}
