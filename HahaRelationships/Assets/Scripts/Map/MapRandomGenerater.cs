@@ -25,8 +25,8 @@ void Start()
 
 public void GenerateAllMap()
 {
-    GenerateSideMap(MapManager.Instance.playerMap, MapManager.Instance.playerMapList);
-    GenerateSideMap(MapManager.Instance.npcMap, MapManager.Instance.npcMapList);
+    GenerateSideMap(MapManager.Instance.playerMapList, MapManager.Instance.playerMap);
+    GenerateSideMap(MapManager.Instance.npcMapList, MapManager.Instance.npcMap);
     Debug.Log("✅ 地图生成完成：7空白 2事件 1重要事件 | 每7块固定日程安排地块");
 }
 
