@@ -372,7 +372,10 @@
 "Assets/Scripts/Ui/MainMenu/StaffButton.cs"
 "Assets/Scripts/Ui/MainMenu/StartGameButton.cs"
 "Assets/Scripts/Ui/Playing/BackButton.cs"
+"Assets/Scripts/Ui/Playing/DragPlan.cs"
 "Assets/Scripts/Ui/Playing/MoveButton.cs"
+"Assets/Scripts/Ui/Playing/PlanUI.cs"
+"Assets/Scripts/Ui/Playing/PlanUIDrag.cs"
 "Assets/Scripts/Ui/Playing/SaveButton.cs"
 "Assets/Scripts/Ui/Playing/TopUI.cs"
 -langversion:9.0
