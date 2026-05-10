@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -24,8 +25,9 @@ public class MapManager : MonoBehaviour
     private void Start()
     {
         GenerateMap();
-        playerMapThings[0] = new Plan();
+        playerBlocks[0] = new Block(E_BlockType.Plan);
         SetMap();
+        currentBlock = playerBlocks[0];
     }
     #region 地图生成
     public Transform playerMap;
@@ -66,25 +68,25 @@ public class MapManager : MonoBehaviour
     {
         for (int i = 0; i < 100; i++)
         {
-            if(playerMapThings[i] == null)
+            if (playerBlocks[i]==null)
             {
-                playerMapThings[i] = new Empty();
+                playerBlocks[i] = new Block(E_BlockType.Empty);
             }
-            switch (playerMapThings[i].Type)
+            switch (playerBlocks[i].blockType)
             {
-                case E_MapThingType.Empty:
+                case E_BlockType.Empty:
                     playerMapList[i].GetComponent<MeshRenderer>().material = emptyMaterial;
                     break;
-                case E_MapThingType.Event:
+                case E_BlockType.Event:
                     playerMapList[i].GetComponent<MeshRenderer>().material = eventMaterial;
                     break;
-                case E_MapThingType.ImportantEvent:
+                case E_BlockType.Important:
                     playerMapList[i].GetComponent<MeshRenderer>().material = importantEventMaterial;
                     break;
-                case E_MapThingType.Plan:
+                case E_BlockType.Plan:
                     playerMapList[i].GetComponent<MeshRenderer>().material = scheduleMaterial;
                     break;
-                case E_MapThingType.Unknown:
+                case E_BlockType.Unknown:
                     playerMapList[i].GetComponent<MeshRenderer>().material = unknownMaterial;
                     break;
                 default:
@@ -104,18 +106,18 @@ public class MapManager : MonoBehaviour
     public void Move()
     {
         _Move(player, playerMapList);
-        PlayerTakeMapThing();
+        PlayerInvokeBlock();
         _Move(npc, npcMapList);
-        NpcTakeMapThing();
+        NpcInvokeBlock();
     }
     #endregion
 
     #region 事件与日程
     [System.NonSerialized]
-    public MapThing[] playerMapThings = new MapThing[100];
+    public Block[] playerBlocks = new Block[100];
     [System.NonSerialized]
-    public MapThing[] npcMapThings = new MapThing[100];
-    public MapThing currentThing;
+    public Block[] npcBlocks = new Block[100];
+    public Block currentBlock;
     [Header("事件")]
     public GameObject eventUI;
     public TextMeshProUGUI eventName;
@@ -125,52 +127,50 @@ public class MapManager : MonoBehaviour
     [System.NonSerialized]
     [Header("日程")]
     public GameObject scheduleUI;
-    private void PlayerTakeMapThing()
+    private void PlayerInvokeBlock()
     {
         int i = PlayerDataManager.Instance.playerData.stepCount;
-        if (playerMapThings[i] != null)
+        if (playerBlocks[i] != null)
         {
-            if (playerMapThings[i].Type == E_MapThingType.Event)
+            if (playerBlocks[i].blockType == E_BlockType.Event)
             {
-                (playerMapThings[i] as MapEvent).offset = 1;
                 PlayerEventInvoke();
             }
-            else if (playerMapThings[i].Type == E_MapThingType.Plan)
+            else if (playerBlocks[i].blockType == E_BlockType.Plan)
             {
-                PlayerScheduleInvoke();
+                PlayerPlanInvoke();
             }
-            else if (playerMapThings[i].Type == E_MapThingType.ImportantEvent)
+            else if (playerBlocks[i].blockType == E_BlockType.Important)
             {
-                (playerMapThings[i] as MapEvent).offset = 2;
                 PlayerEventInvoke();
             }
-            else if (playerMapThings[i].Type == E_MapThingType.Empty)
+            else if (playerBlocks[i].blockType == E_BlockType.Empty)
             {
 
             }
         }
     }
-    private void NpcTakeMapThing()
+    private void NpcInvokeBlock()
     {
 
     }
     private void PlayerEventInvoke()
     {
-        MapEvent currentEvent = playerMapThings[PlayerDataManager.Instance.playerData.stepCount] as MapEvent;
-        for (int i = 0; i < currentEvent.Choices.Count; i++)
+        currentBlock = playerBlocks[PlayerDataManager.Instance.playerData.stepCount];
+        for (int i = 0; i < currentBlock.blockEvent.choiceCount; i++)
         {
-            if (currentEvent.Choices[i] == null)
+            if (currentBlock.blockEvent.choices[i] == null)
             {
                 choices[i].gameObject.SetActive(false);
             }
             else
             {
                 choices[i].gameObject.SetActive(true);
-                choices[i].GetComponentInChildren<TextMeshProUGUI>().text = currentEvent.Choices[i].ChoiceName;
+                choices[i].GetComponentInChildren<TextMeshProUGUI>().text = currentBlock.blockEvent.choices[i].choiceName;
                 int index = i; // 捕获当前的i值
                 choices[i].onClick.RemoveAllListeners(); // 移除之前的监听器，避免重复添加
-                choices[i].onClick.AddListener(() => currentEvent.Choices[index].ExecuteChoice());
-                choices[i].onClick.AddListener(() => eventDescription.text = currentEvent.Choices[index].ChoiceDescription); // 更新事件描述
+                choices[i].onClick.AddListener(() => currentBlock.blockEvent.choices[index].choiceFunc.Invoke());
+                choices[i].onClick.AddListener(() => eventDescription.text = currentBlock.blockEvent.choices[index].choiceDesc); // 更新事件描述
                 choices[i].onClick.AddListener(() => end.gameObject.SetActive(true)); // 选择后显示结束按钮
                 choices[i].onClick.AddListener(() => choices[index].gameObject.SetActive(false));
             }
@@ -178,15 +178,15 @@ public class MapManager : MonoBehaviour
         end.onClick.RemoveAllListeners(); // 移除之前的监听器，避免重复添加
         end.onClick.AddListener(() => eventUI.SetActive(false)); // 选择后关闭事件UI
         end.gameObject.SetActive(false);
-        eventName.text = currentEvent.EventName;
-        eventDescription.text = currentEvent.EventDescription;
+        eventName.text = currentBlock.blockEvent.eventName;
+        eventDescription.text = currentBlock.blockEvent.eventDesc;
         eventUI.SetActive(true);
     }
     private void NpcEventInvoke(int steps)
     {
         // NPC事件触发逻辑
     }
-    private void PlayerScheduleInvoke()
+    private void PlayerPlanInvoke()
     {
         scheduleUI.SetActive(true);
     }

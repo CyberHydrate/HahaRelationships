@@ -3,18 +3,11 @@ using UnityEngine.EventSystems;
 
 public class DragPlan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public enum E_AssignEvent
-    {
-        Work,
-        Entertainment,
-        Rest,
-        Interact,
-        Self_Improvement,
-    }
+    
     [Header("射线设置")]
     public LayerMask targetLayer;   // 要检测的场景层级
     public float rayDistance = 100f;
-    public E_AssignEvent assignEvent;
+    public E_EventType assignEvent;
 
     private GameObject _dragClone;
     private RectTransform _cloneRect;
@@ -101,29 +94,29 @@ public class DragPlan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         int index = id - '0';
         if (tag == "Player")
         {
-            MapManager.Instance.playerMapThings[index] =Assign(assignEvent);
+            MapManager.Instance.playerBlocks[index] =Assign(assignEvent);
             MapManager.Instance.SetMap();
         }
         else if (tag == "Npc")
         {
-           MapManager.Instance.npcMapThings[index] =Assign(assignEvent);
+           MapManager.Instance.npcBlocks[index] =Assign(assignEvent);
             MapManager.Instance.SetMap();
         }
     }
-    private MapThing Assign(E_AssignEvent assignEvent)
+    private Block Assign(E_EventType assignEvent)
     {
         switch (assignEvent)
         {
-            case E_AssignEvent.Work:
-                return new WorkEvent();
-            case E_AssignEvent.Entertainment:
-                return new EntertainmentEvent();
-            case E_AssignEvent.Rest:
-                return new RestEvent();
-            case E_AssignEvent.Interact:
-                return new InteractEvent();
-            case E_AssignEvent.Self_Improvement:
-                return new SelfImprovementEvent();
+            case E_EventType.Work:
+                return new Block(E_BlockType.Event,new BlockEvent(E_EventType.Work));
+            case E_EventType.Entertainment:
+                return new Block(E_BlockType.Event,new BlockEvent(E_EventType.Entertainment));
+            case E_EventType.Rest:
+                return new Block(E_BlockType.Event,new BlockEvent(E_EventType.Rest));
+            case E_EventType.Interact:
+                return new Block(E_BlockType.Event,new BlockEvent(E_EventType.Interact));
+            case E_EventType.Self_Improvement:
+                return new Block(E_BlockType.Event,new BlockEvent(E_EventType.Self_Improvement));
             default:
                 Debug.LogError($"未知的分配事件类型：{assignEvent}");
                 return null;

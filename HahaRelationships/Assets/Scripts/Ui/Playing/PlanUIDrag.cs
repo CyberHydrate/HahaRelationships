@@ -16,7 +16,7 @@ public class PlanUIDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     
     public void OnBeginDrag(PointerEventData eventData)
     {
-        //if (MapManager.Instance.currentThing.Type is not E_MapThingType.Schedule) return;
+        if (MapManager.Instance.currentBlock.blockType is not E_BlockType.Plan) return;
 
         RectTransform parentRect = _rect.parent as RectTransform;
         if (parentRect == null) return;
@@ -39,7 +39,7 @@ public class PlanUIDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnDrag(PointerEventData eventData)
     {
-        //if (MapManager.Instance.currentThing.Type is not E_MapThingType.Schedule) return;
+        if (MapManager.Instance.currentBlock.blockType is not E_BlockType.Plan) return;
         RectTransform parentRect = _rect.parent as RectTransform;
         if (parentRect == null) return;
 
