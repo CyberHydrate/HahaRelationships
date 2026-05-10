@@ -25,9 +25,13 @@ public class MapManager : MonoBehaviour
     private void Start()
     {
         GenerateMap();
+        InitFixedPlanBlocks(playerBlocks);
+        InitFixedPlanBlocks(npcBlocks);
         playerBlocks[0] = new Block(E_BlockType.Plan);
         SetMap();
         currentBlock = playerBlocks[0];
+        PlayerPlanInvoke();
+
     }
     #region 地图生成
     public Transform playerMap;
@@ -94,6 +98,34 @@ public class MapManager : MonoBehaviour
                     break;
             }
         }
+        //for (int i = 0; i < 100; i++)
+        //{
+        //    if (npcBlocks[i] == null)
+        //    {
+        //        npcBlocks[i] = new Block(E_BlockType.Empty);
+        //    }
+        //    switch (npcBlocks[i].blockType)
+        //    {
+        //        case E_BlockType.Empty:
+        //            npcMapList[i].GetComponent<MeshRenderer>().material = emptyMaterial;
+        //            break;
+        //        case E_BlockType.Event:
+        //            npcMapList[i].GetComponent<MeshRenderer>().material = eventMaterial;
+        //            break;
+        //        case E_BlockType.Important:
+        //            npcMapList[i].GetComponent<MeshRenderer>().material = importantEventMaterial;
+        //            break;
+        //        case E_BlockType.Plan:
+        //            npcMapList[i].GetComponent<MeshRenderer>().material = scheduleMaterial;
+        //            break;
+        //        case E_BlockType.Unknown:
+        //            npcMapList[i].GetComponent<MeshRenderer>().material = unknownMaterial;
+        //            break;
+        //        default:
+        //            npcMapList[i].GetComponent<MeshRenderer>().material = unknownMaterial;
+        //            break;
+        //    }
+        //}
     }
     #endregion
 
@@ -124,7 +156,6 @@ public class MapManager : MonoBehaviour
     public TextMeshProUGUI eventDescription;
     public Button[] choices;
     public Button end;
-    [System.NonSerialized]
     [Header("日程")]
     public GameObject scheduleUI;
     private void PlayerInvokeBlock()
@@ -152,7 +183,11 @@ public class MapManager : MonoBehaviour
     }
     private void NpcInvokeBlock()
     {
-
+        int i = PlayerDataManager.Instance.playerData.stepCount; 
+        if (npcBlocks[i] != null)
+        {
+            // 补充NPC的区块触发逻辑
+        }
     }
     private void PlayerEventInvoke()
     {
@@ -189,10 +224,77 @@ public class MapManager : MonoBehaviour
     private void PlayerPlanInvoke()
     {
         scheduleUI.SetActive(true);
+        GenerateNext7BlocksWhenOnPlan(true);
     }
     private void NpcScheduleInvoke()
     {
         // NPC日程事件触发逻辑
     }
+    #endregion
+
+    #region 地图区块分配
+
+    public void GenerateNext7BlocksWhenOnPlan(bool isPlayer)
+    {
+        int currentIndex = PlayerDataManager.Instance.playerData.stepCount;
+        Block[] targetBlocks = isPlayer ? playerBlocks : npcBlocks;
+
+        for (int i = 1; i <= 7; i++)
+        {
+            int targetIndex = currentIndex + i;
+
+            if (targetIndex >= 100)
+                break;
+
+            if (targetIndex % 7 == 0)
+                continue;
+
+            if (targetBlocks[targetIndex] == null || targetBlocks[targetIndex].blockType == E_BlockType.Unknown)
+            {
+                targetBlocks[targetIndex] = GetRandomBlockByWeight();
+            }
+        }
+
+        SetMap();
+    }
+
+
+    private void InitFixedPlanBlocks(Block[] blocks)
+    {
+        for (int i = 0; i < blocks.Length; i++)
+        {
+            if (i % 7 == 0)
+            {
+                blocks[i] = new Block(E_BlockType.Plan);
+            }
+            else
+            {
+                blocks[i] = new Block(E_BlockType.Unknown);
+            }
+        }
+    }
+
+    private Block GetRandomBlockByWeight()
+    {
+        int random = Random.Range(0, 10);
+
+        if (random < 7)
+        {
+            Debug.Log("Empty");
+            return new Block(E_BlockType.Empty);
+        }
+        else if (random < 9)
+        {
+            Debug.Log("Event");
+            return new Block(E_BlockType.Event);
+        }
+        else
+        {
+            Debug.Log("Important");
+            return new Block(E_BlockType.Important);
+        }
+    }
+
+
     #endregion
 }
