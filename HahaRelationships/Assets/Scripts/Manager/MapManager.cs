@@ -137,6 +137,7 @@ public class MapManager : MonoBehaviour
     }
     public void Move()
     {
+        currentBlock = playerBlocks[PlayerDataManager.Instance.playerData.stepCount];
         _Move(player, playerMapList);
         PlayerInvokeBlock();
         _Move(npc, npcMapList);
@@ -191,31 +192,31 @@ public class MapManager : MonoBehaviour
     }
     private void PlayerEventInvoke()
     {
-        currentBlock = playerBlocks[PlayerDataManager.Instance.playerData.stepCount];
-        for (int i = 0; i < currentBlock.blockEvent.choiceCount; i++)
-        {
-            if (currentBlock.blockEvent.choices[i] == null)
-            {
-                choices[i].gameObject.SetActive(false);
-            }
-            else
-            {
-                choices[i].gameObject.SetActive(true);
-                choices[i].GetComponentInChildren<TextMeshProUGUI>().text = currentBlock.blockEvent.choices[i].choiceName;
-                int index = i; // 捕获当前的i值
-                choices[i].onClick.RemoveAllListeners(); // 移除之前的监听器，避免重复添加
-                choices[i].onClick.AddListener(() => currentBlock.blockEvent.choices[index].choiceFunc.Invoke());
-                choices[i].onClick.AddListener(() => eventDescription.text = currentBlock.blockEvent.choices[index].choiceDesc); // 更新事件描述
-                choices[i].onClick.AddListener(() => end.gameObject.SetActive(true)); // 选择后显示结束按钮
-                choices[i].onClick.AddListener(() => choices[index].gameObject.SetActive(false));
-            }
-        }
-        end.onClick.RemoveAllListeners(); // 移除之前的监听器，避免重复添加
-        end.onClick.AddListener(() => eventUI.SetActive(false)); // 选择后关闭事件UI
-        end.gameObject.SetActive(false);
-        eventName.text = currentBlock.blockEvent.eventName;
-        eventDescription.text = currentBlock.blockEvent.eventDesc;
-        eventUI.SetActive(true);
+        //currentBlock = playerBlocks[PlayerDataManager.Instance.playerData.stepCount];
+        //for (int i = 0; i < currentBlock.blockEvent.choiceCount; i++)
+        //{
+        //    if (currentBlock.blockEvent.choices[i] == null)
+        //    {
+        //        choices[i].gameObject.SetActive(false);
+        //    }
+        //    else
+        //    {
+        //        choices[i].gameObject.SetActive(true);
+        //        choices[i].GetComponentInChildren<TextMeshProUGUI>().text = currentBlock.blockEvent.choices[i].choiceName;
+        //        int index = i; // 捕获当前的i值
+        //        choices[i].onClick.RemoveAllListeners(); // 移除之前的监听器，避免重复添加
+        //        choices[i].onClick.AddListener(() => currentBlock.blockEvent.choices[index].choiceFunc.Invoke());
+        //        choices[i].onClick.AddListener(() => eventDescription.text = currentBlock.blockEvent.choices[index].choiceDesc); // 更新事件描述
+        //        choices[i].onClick.AddListener(() => end.gameObject.SetActive(true)); // 选择后显示结束按钮
+        //        choices[i].onClick.AddListener(() => choices[index].gameObject.SetActive(false));
+        //    }
+        //}
+        //end.onClick.RemoveAllListeners(); // 移除之前的监听器，避免重复添加
+        //end.onClick.AddListener(() => eventUI.SetActive(false)); // 选择后关闭事件UI
+        //end.gameObject.SetActive(false);
+        //eventName.text = currentBlock.blockEvent.eventName;
+        //eventDescription.text = currentBlock.blockEvent.eventDesc;
+        //eventUI.SetActive(true);
     }
     private void NpcEventInvoke(int steps)
     {
