@@ -34,15 +34,28 @@ public class PlayerData
         this.stepCount = stepCount;
         this.relationshiphp = relationshiphp;
     }
+    public PlayerData()
+    {
+
+    }
 }
 public class PlayerDataManager
 {
     #region 单例模式实现
-    private static readonly PlayerDataManager mInstance = new PlayerDataManager();
-
-    public static PlayerDataManager Instance => mInstance;//单例模式，确保全局只有一个PlayerDataManager实例
+    private static PlayerDataManager mInstance;
+    public static PlayerDataManager Instance
+    {
+        get
+        {
+            if (mInstance == null)
+            {
+                mInstance = new PlayerDataManager();
+            }
+            return mInstance;
+        }
+    }
 
     private PlayerDataManager() { }//构造函数私有化，确保外部无法实例化
     #endregion
-    public PlayerData playerData = new PlayerData("", "", "", "", "", 1, 5, 7, 100, 100, 0, 0, 0);
+    public PlayerData playerData = new PlayerData();
 }

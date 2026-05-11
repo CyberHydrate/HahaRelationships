@@ -262,8 +262,8 @@ MonoBehaviour:
   npcGender: {fileID: 1907353345}
   relationship: {fileID: 1067301767}
   characteristic1: {fileID: 1664249875}
-  characteristic2: {fileID: 0}
-  characteristic3: {fileID: 0}
+  characteristic2: {fileID: 574127651}
+  characteristic3: {fileID: 142445471}
 --- !u!1 &15331545
 GameObject:
   m_ObjectHideFlags: 0
@@ -2152,8 +2152,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   d1: {fileID: 1664249875}
-  d2: {fileID: 0}
-  d3: {fileID: 0}
+  d2: {fileID: 574127651}
+  d3: {fileID: 142445471}
 --- !u!1 &352296808
 GameObject:
   m_ObjectHideFlags: 0
