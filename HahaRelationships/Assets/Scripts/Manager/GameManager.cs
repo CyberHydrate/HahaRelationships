@@ -61,7 +61,6 @@ public class GameManager : MonoBehaviour
 
             case GameState.GameOver:
                 // 游戏结束时要做的事，比如显示结束UI、停止所有游戏逻辑等
-                Time.timeScale = 0;
                 break;
         }
         // 触发状态改变事件，通知其他系统

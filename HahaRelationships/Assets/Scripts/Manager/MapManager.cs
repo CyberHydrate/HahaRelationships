@@ -43,13 +43,13 @@ public class MapManager : MonoBehaviour
     public Material scheduleMaterial;
     public Material unknownMaterial;
     [System.NonSerialized]
-    public GameObject[] playerMapList = new GameObject[100];
+    public GameObject[] playerMapList = new GameObject[101];
     [System.NonSerialized]
-    public GameObject[] npcMapList = new GameObject[100];
+    public GameObject[] npcMapList = new GameObject[101];
     public void GenerateMap()
     {
         Debug.Log("Generating map...");
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 101; i++)
         {
             Vector3 pos = new Vector3(10, 0, i * 10);
             GameObject plane = Instantiate(planePrefab, pos, Quaternion.identity);
@@ -58,7 +58,7 @@ public class MapManager : MonoBehaviour
             plane.name = "Plane_" + i;
             playerMapList[i] = plane;
         }
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 101; i++)
         {
             Vector3 pos = new Vector3(-10, 0, i * 10);
             GameObject plane = Instantiate(planePrefab, pos, Quaternion.identity);
@@ -142,21 +142,22 @@ public class MapManager : MonoBehaviour
         PlayerInvokeBlock();
         _Move(npc, npcMapList);
         NpcInvokeBlock();
+        GameOverCheck();
     }
     #endregion
 
     #region 事件与日程
     [System.NonSerialized]
-    public Block[] playerBlocks = new Block[100];
+    public Block[] playerBlocks = new Block[101];
     [System.NonSerialized]
-    public Block[] npcBlocks = new Block[100];
+    public Block[] npcBlocks = new Block[101];
     public Block currentBlock;
     [Header("事件")]
     public GameObject eventUI;
     public TextMeshProUGUI eventName;
     public TextMeshProUGUI eventDescription;
     public Button[] choices;
-    public Button end;
+    public Button close;
     [Header("日程")]
     public GameObject scheduleUI;
     private void PlayerInvokeBlock()
@@ -192,7 +193,6 @@ public class MapManager : MonoBehaviour
     }
     private void PlayerEventInvoke()
     {
-        //currentBlock = playerBlocks[PlayerDataManager.Instance.playerData.stepCount];
         //for (int i = 0; i < currentBlock.blockEvent.choiceCount; i++)
         //{
         //    if (currentBlock.blockEvent.choices[i] == null)
@@ -297,5 +297,74 @@ public class MapManager : MonoBehaviour
     }
 
 
+    #endregion
+
+    #region 游戏结束判定
+    [Header("游戏结束")]
+    public TextMeshProUGUI title;
+    public TextMeshProUGUI description;
+    public TextMeshProUGUI overword;
+    public TextMeshProUGUI data;
+    private void GameOverCheck()
+    {
+        PlayerData p = PlayerDataManager.Instance.playerData;
+        if (p.npchp == 0)
+        {
+            GameManager.Instance.SwitchState(GameState.GameOver);
+            SetOverPanel("A1结局","ta崩溃了");
+        }
+        else if (p.playerhp == 0)
+        {
+            GameManager.Instance.SwitchState(GameState.GameOver);
+            SetOverPanel("A2结局","你崩溃了");
+        }
+        else if (p.relationshiphp == 100)
+        {
+            GameManager.Instance.SwitchState(GameState.GameOver);
+            SetOverPanel("A3结局","珍贵的情谊");
+        }
+        else if (p.relationshiphp == 0)
+        {
+            GameManager.Instance.SwitchState(GameState.GameOver);
+            SetOverPanel("A4结局","缘分已尽");
+        }
+        else if (p.stepCount < 10)
+        {
+            Debug.Log("当前步数："+PlayerDataManager.Instance.playerData.stepCount);
+            return;
+        }
+        else if (p.playerhp >= 50 && p.relationshiphp < 50)
+        {
+            Debug.Log("结局B1");
+            GameManager.Instance.SwitchState(GameState.GameOver);
+            SetOverPanel("B1结局","渐行渐远");
+        }
+        else if (p.playerhp < 50 && p.relationshiphp < 50)
+        {
+            Debug.Log("结局B2");
+            GameManager.Instance.SwitchState(GameState.GameOver);
+            SetOverPanel("B2结局","冤冤相报");
+        }
+        else if (p.playerhp >= 50 && p.relationshiphp >= 50)
+        {
+            Debug.Log("结局B3");
+            GameManager.Instance.SwitchState(GameState.GameOver);
+            SetOverPanel("B3结局","君子之交");
+        }
+        else if (p.playerhp < 50 && p.relationshiphp >= 50)
+        {
+            Debug.Log("结局B4");
+            GameManager.Instance.SwitchState(GameState.GameOver);
+            SetOverPanel("B4结局", "恨海情天");
+        }
+    }
+    private void SetOverPanel(string name,string desc)
+    {
+        PlayerData p = PlayerDataManager.Instance.playerData;
+        title.text = name;
+        description.text = desc;
+        overword.text = p.playerName + " 和 " + p.npcName + " 以 " + p.relationship + " 关系，在经过了 " + p.stepCount + " 步后达成了结局 " + name;
+        data.text = "当前数值：\n" + "玩家心理健康：" + p.playerhp + "\n" + "npc心理健康：" + p.npchp + "\n" + "羁绊值：" + p.relationshiphp + "\n" + "心之壁厚度：" + p.heartWallWidth;
+    }
     #endregion
 }
