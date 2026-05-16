@@ -2,6 +2,7 @@ ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
     - BackButton
+    - CameraFollowDragZ
     - CharacterDropdown
     - ConfirmButton
     - DragPlan
@@ -23,6 +24,7 @@ ScriptsOnlyBuild:
     - StaffButton
     - StartGameButton
     - TopUI
+    - blockID
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
     Unity.TextMeshPro:
@@ -130,6 +132,10 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
+    - Class: 82
+      Script: {instanceID: 0}
+    - Class: 83
+      Script: {instanceID: 0}
     - Class: 89
       Script: {instanceID: 0}
     - Class: 104
@@ -159,31 +165,35 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 4690}
     - Class: 114
-      Script: {instanceID: 5280}
+      Script: {instanceID: 5178}
     - Class: 114
-      Script: {instanceID: 5354}
+      Script: {instanceID: 5282}
     - Class: 114
-      Script: {instanceID: 5426}
+      Script: {instanceID: 5356}
     - Class: 114
-      Script: {instanceID: 5492}
+      Script: {instanceID: 5428}
     - Class: 114
-      Script: {instanceID: 5958}
+      Script: {instanceID: 5494}
     - Class: 114
-      Script: {instanceID: 6104}
+      Script: {instanceID: 5960}
     - Class: 114
-      Script: {instanceID: 6120}
+      Script: {instanceID: 6106}
     - Class: 114
-      Script: {instanceID: 6282}
+      Script: {instanceID: 6122}
     - Class: 114
-      Script: {instanceID: 6656}
+      Script: {instanceID: 6284}
     - Class: 114
-      Script: {instanceID: 6668}
+      Script: {instanceID: 6658}
     - Class: 114
-      Script: {instanceID: 6702}
+      Script: {instanceID: 6670}
     - Class: 114
-      Script: {instanceID: 7266}
+      Script: {instanceID: 6704}
     - Class: 114
-      Script: {instanceID: 7272}
+      Script: {instanceID: 7268}
+    - Class: 114
+      Script: {instanceID: 7274}
+    - Class: 114
+      Script: {instanceID: 33882}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -218,6 +228,10 @@ ScriptsOnlyBuild:
     - Class: 49
       Script: {instanceID: 0}
     - Class: 81
+      Script: {instanceID: 0}
+    - Class: 82
+      Script: {instanceID: 0}
+    - Class: 83
       Script: {instanceID: 0}
     - Class: 89
       Script: {instanceID: 0}
@@ -264,31 +278,31 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 4748}
     - Class: 114
-      Script: {instanceID: 5280}
+      Script: {instanceID: 5282}
     - Class: 114
-      Script: {instanceID: 5354}
+      Script: {instanceID: 5356}
     - Class: 114
-      Script: {instanceID: 5492}
+      Script: {instanceID: 5494}
     - Class: 114
-      Script: {instanceID: 5622}
+      Script: {instanceID: 5624}
     - Class: 114
-      Script: {instanceID: 5724}
+      Script: {instanceID: 5726}
     - Class: 114
-      Script: {instanceID: 6104}
+      Script: {instanceID: 6106}
     - Class: 114
-      Script: {instanceID: 6282}
+      Script: {instanceID: 6284}
     - Class: 114
-      Script: {instanceID: 6558}
+      Script: {instanceID: 6560}
     - Class: 114
-      Script: {instanceID: 6656}
+      Script: {instanceID: 6658}
     - Class: 114
-      Script: {instanceID: 6668}
+      Script: {instanceID: 6670}
     - Class: 114
-      Script: {instanceID: 7206}
+      Script: {instanceID: 7208}
     - Class: 114
-      Script: {instanceID: 7770}
+      Script: {instanceID: 7772}
     - Class: 114
-      Script: {instanceID: 7856}
+      Script: {instanceID: 7858}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -806,6 +820,12 @@ ScriptsOnlyBuild:
     className: GridLayoutGroup
   - hash:
       serializedVersion: 2
+      Hash: e3f6f11220f4112b3c56dfdfd29fba43
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: CameraFollowDragZ
+  - hash:
+      serializedVersion: 2
       Hash: f2098fcd8ee983a05ec192f63904298f
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
@@ -950,7 +970,7 @@ ScriptsOnlyBuild:
     className: CanvasScaler
   - hash:
       serializedVersion: 2
-      Hash: 323d51837c815672d716cc4e28334f3f
+      Hash: a347d753fa92fad0184b1e2bae233aab
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: MapManager
@@ -1260,6 +1280,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: UnityOnSliderValueChangedMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 026f7eeb372e2c2ec965cb554c26cc3c
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: blockID
   platform: 19
   scenePathNames:
   - Assets/Scenes/MainMenu.unity

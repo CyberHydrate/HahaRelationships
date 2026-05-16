@@ -1,33 +1,48 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
-public class CameraDragFollow : MonoBehaviour
+public class CameraFollowDragZ : MonoBehaviour
 {
     public Transform player;
-    public Vector3 baseOffset = new Vector3(0, 10, -12);
-    public float dragSpeed = 0.3f;
 
-    private Vector3 dragOffset = Vector3.zero;
-    public Vector3 rotationOffset;
+    [Header("拖动控制")]
+    public float dragSpeed = 0.3f;
+    [Header("Z轴拖动范围（相对初始Z）")]
+    public float minZ = -8f;
+    public float maxZ = 15f;
+
+    private Vector3 _startCamPos;
+    private Quaternion _startCamRot;
+    private float _dragZ;
+    private Vector3 _startPlayerPos;
+
+    void Start()
+    {
+        _startCamPos = transform.position;
+        _startCamRot = transform.rotation;
+        _startPlayerPos = player.position;
+        _dragZ = 0;
+    }
 
     void LateUpdate()
     {
         if (player == null) return;
 
-        // 按住鼠标右键拖动
+        // 右键左右拖动控制Z
         if (Input.GetMouseButton(1))
         {
-            // 左右拖动 → X 轴
-            dragOffset.x += Input.GetAxis("Mouse X") * dragSpeed;
-            // 上下拖动 → Z 轴（前后）
-            dragOffset.z += Input.GetAxis("Mouse Y") * dragSpeed;
+            _dragZ -= Input.GetAxis("Mouse X") * dragSpeed;
+            _dragZ = Mathf.Clamp(_dragZ, minZ, maxZ);
         }
 
-        // 相机位置 = 玩家位置 + 固定偏移 + 拖动偏移
-        transform.position = player.position + baseOffset + dragOffset;
+        // 玩家的总偏移 = 当前玩家位置 - 初始玩家位置
+        Vector3 playerOffset = player.position - _startPlayerPos;
 
-        // 固定俯视角度，永远不随玩家转
-        // 将 transform.rotation = rotationOffset; 替换为如下代码：
-        transform.rotation = Quaternion.Euler(rotationOffset);
+        // 相机 = 初始相机位置 + 玩家整体偏移 + 拖动Z偏移
+        Vector3 newPos = _startCamPos + playerOffset;
+        newPos.z += _dragZ;
+
+        transform.position = newPos;
+        transform.rotation = _startCamRot;
     }
 }

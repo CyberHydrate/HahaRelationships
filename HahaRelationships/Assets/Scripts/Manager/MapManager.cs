@@ -56,6 +56,7 @@ public class MapManager : MonoBehaviour
             plane.tag = "Player";
             plane.transform.parent = playerMap;
             plane.name = "Plane_" + i;
+            plane.GetComponent<blockID>().id = i;
             playerMapList[i] = plane;
         }
         for (int i = 0; i < 101; i++)
@@ -65,6 +66,7 @@ public class MapManager : MonoBehaviour
             plane.tag = "Npc";
             plane.transform.parent = npcMap;
             plane.name = "Plane_" + i;
+            plane.GetComponent<blockID>().id = i;
             npcMapList[i] = plane;
         }
     }
@@ -205,10 +207,17 @@ public class MapManager : MonoBehaviour
                 choices[i].GetComponentInChildren<TextMeshProUGUI>().text = currentBlock.blockEvent.choices[i].choiceName;
                 int index = i; // 捕获当前的i值
                 choices[i].onClick.RemoveAllListeners(); // 移除之前的监听器，避免重复添加
+                
                 choices[i].onClick.AddListener(() => currentBlock.blockEvent.choices[index].choiceFunc.Invoke());
                 choices[i].onClick.AddListener(() => eventDescription.text = currentBlock.blockEvent.choices[index].choiceDesc); // 更新事件描述
                 choices[i].onClick.AddListener(() => closeBtn.gameObject.SetActive(true)); // 选择后显示结束按钮
-                choices[i].onClick.AddListener(() => choices[index].gameObject.SetActive(false));
+                choices[i].onClick.AddListener(() => choices[0].gameObject.SetActive(false));
+                choices[i].onClick.AddListener(() => choices[1].gameObject.SetActive(false));
+                choices[i].onClick.AddListener(() => choices[2].gameObject.SetActive(false));
+                choices[i].onClick.AddListener(() => choices[3].gameObject.SetActive(false));
+                choices[i].onClick.AddListener(() => choices[4].gameObject.SetActive(false));
+
+
             }
         }
         closeBtn.onClick.RemoveAllListeners(); // 移除之前的监听器，避免重复添加
@@ -287,7 +296,32 @@ public class MapManager : MonoBehaviour
         else if (random < 9)
         {
             Debug.Log("Event");
-            return new Block(E_BlockType.Event,new TestWorkEvent());
+            int i = Random.Range(0, 9);
+            switch(i)
+            {
+                case 0:
+                    return new Block(E_BlockType.Event,new TestWorkEvent());
+                case 1:
+                    return new Block(E_BlockType.Event,new TestEntertainmentEvent());
+                case 2:
+                    return new Block(E_BlockType.Event, new TestRestEvent());
+                case 3:
+                    return new Block(E_BlockType.Event, new TestInteractEvent());
+                case 4:
+                    return new Block(E_BlockType.Event, new Event6());
+                case 5:
+                    return new Block(E_BlockType.Event, new Event7());
+                case 6:
+                    return new Block(E_BlockType.Event, new Event8());
+                case 7:
+                    return new Block(E_BlockType.Event, new Event9());
+                case 8:
+                    return new Block(E_BlockType.Event, new Event10());
+                case 9:
+                    return new Block(E_BlockType.Event, new TestSelfEvent());
+                default:
+                    return new Block(E_BlockType.Event, new TestRestEvent());
+            }
         }
         else
         {

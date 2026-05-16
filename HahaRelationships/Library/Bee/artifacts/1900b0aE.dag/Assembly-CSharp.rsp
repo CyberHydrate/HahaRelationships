@@ -361,6 +361,7 @@
 "Assets/Scripts/Manager/SaveManager.cs"
 "Assets/Scripts/Manager/SettingDataManager.cs"
 "Assets/Scripts/Plane/Block.cs"
+"Assets/Scripts/Plane/BlockID.cs"
 "Assets/Scripts/Ui/GameOver/GameOverPanel.cs"
 "Assets/Scripts/Ui/GameSelect/CharacterDropdown.cs"
 "Assets/Scripts/Ui/GameSelect/ConfirmButton.cs"
