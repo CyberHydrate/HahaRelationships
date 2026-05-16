@@ -190,7 +190,22 @@ public class MapManager : MonoBehaviour
         int i = PlayerDataManager.Instance.playerData.stepCount; 
         if (npcBlocks[i] != null)
         {
-            // 补充NPC的区块触发逻辑
+            if (npcBlocks[i].blockType == E_BlockType.Event)
+            {
+                NpcEventInvoke(i);
+            }
+            else if (npcBlocks[i].blockType == E_BlockType.Plan)
+            {
+                NpcScheduleInvoke();
+            }
+            else if (npcBlocks[i].blockType == E_BlockType.Important)
+            {
+                NpcEventInvoke(i);
+            }
+            else if (npcBlocks[i].blockType == E_BlockType.Empty)
+            {
+
+            }
         }
     }
     private void PlayerEventInvoke()
@@ -238,7 +253,7 @@ public class MapManager : MonoBehaviour
     }
     private void NpcScheduleInvoke()
     {
-        // NPC日程事件触发逻辑
+        GenerateNext7BlocksWhenOnPlan(false);
     }
     #endregion
 
@@ -288,6 +303,8 @@ public class MapManager : MonoBehaviour
     {
         int random = Random.Range(0, 10);
 
+        int currentStep = PlayerDataManager.Instance.playerData.stepCount;
+
         if (random < 7)
         {
             Debug.Log("Empty");
@@ -325,8 +342,41 @@ public class MapManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Important");
-            return new Block(E_BlockType.Important,new TestRestEvent());
+            if (currentStep <= 16)
+            {
+                Debug.Log("Important blocked (step ≤16), generate Event instead");
+                int i = Random.Range(0, 9);
+                switch (i)
+                {
+                    case 0:
+                        return new Block(E_BlockType.Event, new TestWorkEvent());
+                    case 1:
+                        return new Block(E_BlockType.Event, new TestEntertainmentEvent());
+                    case 2:
+                        return new Block(E_BlockType.Event, new TestRestEvent());
+                    case 3:
+                        return new Block(E_BlockType.Event, new TestInteractEvent());
+                    case 4:
+                        return new Block(E_BlockType.Event, new Event6());
+                    case 5:
+                        return new Block(E_BlockType.Event, new Event7());
+                    case 6:
+                        return new Block(E_BlockType.Event, new Event8());
+                    case 7:
+                        return new Block(E_BlockType.Event, new Event9());
+                    case 8:
+                        return new Block(E_BlockType.Event, new Event10());
+                    case 9:
+                        return new Block(E_BlockType.Event, new TestSelfEvent());
+                    default:
+                        return new Block(E_BlockType.Event, new TestRestEvent());
+                }
+            }
+            else
+            {
+                Debug.Log("Important");
+                return new Block(E_BlockType.Important, new TestRestEvent());
+            }
         }
     }
     #endregion
