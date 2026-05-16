@@ -52,10 +52,21 @@ MonoBehaviour:
   emptyMaterial: {fileID: 2100000, guid: 1eed142df9c461d4b8b9f7c4405cc4f9, type: 2}
   eventMaterial: {fileID: 2100000, guid: c22ed3d7cd1ebf040baedaf27656544d, type: 2}
   importantEventMaterial: {fileID: 2100000, guid: 350897ea7b80320498f0b78ba48c4b0a, type: 2}
-  scheduleMaterial: {fileID: 2100000, guid: 1bb6286e914594a4b8b198e88c2872bf, type: 2}
+  planMaterial: {fileID: 2100000, guid: 1bb6286e914594a4b8b198e88c2872bf, type: 2}
   unknownMaterial: {fileID: 2100000, guid: 29b7c3fd6d7965f41bdf6d5d4b305cc5, type: 2}
   eventUI: {fileID: 0}
   eventName: {fileID: 0}
   eventDescription: {fileID: 0}
-  choices: []
-  end: {fileID: 0}
+  choices:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  closeBtn: {fileID: 0}
+  scheduleUI: {fileID: 0}
+  maxSteps: 40
+  title: {fileID: 0}
+  description: {fileID: 0}
+  overword: {fileID: 0}
+  data: {fileID: 0}

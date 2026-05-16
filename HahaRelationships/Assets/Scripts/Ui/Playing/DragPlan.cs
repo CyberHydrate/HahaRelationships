@@ -66,7 +66,8 @@ public class DragPlan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             // 拿到击中的物体
             GameObject hitObj = hit.collider.gameObject;
             char id = hitObj.name[hitObj.name.Length - 1];
-            Debug.Log($"击中场景物体：{hitObj.name} | 标签：{hitObj.tag}|序号：{id}");
+            Debug.Log($"击中场景物体：{hitObj.name} | 标签：{hitObj.tag}|序号：{id},地块类型为{ MapManager.Instance.playerBlocks[id].blockType.ToString()}");
+            if (MapManager.Instance.playerBlocks[id].blockType==E_BlockType.Empty)
             SetEvent(id, hitObj.tag);
         }
         else
@@ -108,15 +109,15 @@ public class DragPlan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         switch (assignEvent)
         {
             case E_EventType.Work:
-                return new Block(E_BlockType.Event,new BlockEvent(E_EventType.Work));
+                return new Block(E_BlockType.Event,new TestWorkEvent());
             case E_EventType.Entertainment:
-                return new Block(E_BlockType.Event,new BlockEvent(E_EventType.Entertainment));
+                return new Block(E_BlockType.Event,new TestEntertainmentEvent());
             case E_EventType.Rest:
-                return new Block(E_BlockType.Event,new BlockEvent(E_EventType.Rest));
+                return new Block(E_BlockType.Event,new TestRestEvent());
             case E_EventType.Interact:
-                return new Block(E_BlockType.Event,new BlockEvent(E_EventType.Interact));
+                return new Block(E_BlockType.Event,new TestInteractEvent());
             case E_EventType.Self_Improvement:
-                return new Block(E_BlockType.Event,new BlockEvent(E_EventType.Self_Improvement));
+                return new Block(E_BlockType.Event,new TestSelfEvent());
             default:
                 Debug.LogError($"未知的分配事件类型：{assignEvent}");
                 return null;

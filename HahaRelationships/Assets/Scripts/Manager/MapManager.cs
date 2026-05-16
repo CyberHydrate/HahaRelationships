@@ -40,7 +40,7 @@ public class MapManager : MonoBehaviour
     public Material emptyMaterial;
     public Material eventMaterial;
     public Material importantEventMaterial;
-    public Material scheduleMaterial;
+    public Material planMaterial;
     public Material unknownMaterial;
     [System.NonSerialized]
     public GameObject[] playerMapList = new GameObject[101];
@@ -72,10 +72,10 @@ public class MapManager : MonoBehaviour
     {
         for (int i = 0; i < 100; i++)
         {
-            if (playerBlocks[i]==null)
-            {
-                playerBlocks[i] = new Block(E_BlockType.Empty);
-            }
+            //if (playerBlocks[i]==null)
+            //{
+            //    playerBlocks[i] = new Block(E_BlockType.Empty);
+            //}
             switch (playerBlocks[i].blockType)
             {
                 case E_BlockType.Empty:
@@ -88,7 +88,7 @@ public class MapManager : MonoBehaviour
                     playerMapList[i].GetComponent<MeshRenderer>().material = importantEventMaterial;
                     break;
                 case E_BlockType.Plan:
-                    playerMapList[i].GetComponent<MeshRenderer>().material = scheduleMaterial;
+                    playerMapList[i].GetComponent<MeshRenderer>().material = planMaterial;
                     break;
                 case E_BlockType.Unknown:
                     playerMapList[i].GetComponent<MeshRenderer>().material = unknownMaterial;
@@ -157,7 +157,7 @@ public class MapManager : MonoBehaviour
     public TextMeshProUGUI eventName;
     public TextMeshProUGUI eventDescription;
     public Button[] choices;
-    public Button close;
+    public Button closeBtn;
     [Header("日程")]
     public GameObject scheduleUI;
     private void PlayerInvokeBlock()
@@ -193,30 +193,30 @@ public class MapManager : MonoBehaviour
     }
     private void PlayerEventInvoke()
     {
-        //for (int i = 0; i < currentBlock.blockEvent.choiceCount; i++)
-        //{
-        //    if (currentBlock.blockEvent.choices[i] == null)
-        //    {
-        //        choices[i].gameObject.SetActive(false);
-        //    }
-        //    else
-        //    {
-        //        choices[i].gameObject.SetActive(true);
-        //        choices[i].GetComponentInChildren<TextMeshProUGUI>().text = currentBlock.blockEvent.choices[i].choiceName;
-        //        int index = i; // 捕获当前的i值
-        //        choices[i].onClick.RemoveAllListeners(); // 移除之前的监听器，避免重复添加
-        //        choices[i].onClick.AddListener(() => currentBlock.blockEvent.choices[index].choiceFunc.Invoke());
-        //        choices[i].onClick.AddListener(() => eventDescription.text = currentBlock.blockEvent.choices[index].choiceDesc); // 更新事件描述
-        //        choices[i].onClick.AddListener(() => end.gameObject.SetActive(true)); // 选择后显示结束按钮
-        //        choices[i].onClick.AddListener(() => choices[index].gameObject.SetActive(false));
-        //    }
-        //}
-        //end.onClick.RemoveAllListeners(); // 移除之前的监听器，避免重复添加
-        //end.onClick.AddListener(() => eventUI.SetActive(false)); // 选择后关闭事件UI
-        //end.gameObject.SetActive(false);
-        //eventName.text = currentBlock.blockEvent.eventName;
-        //eventDescription.text = currentBlock.blockEvent.eventDesc;
-        //eventUI.SetActive(true);
+        for (int i = 0; i < 5; i++)
+        {
+            if (i>currentBlock.blockEvent.choiceCount-1)
+            {
+                choices[i].gameObject.SetActive(false);
+            }
+            else
+            {
+                choices[i].gameObject.SetActive(true);
+                choices[i].GetComponentInChildren<TextMeshProUGUI>().text = currentBlock.blockEvent.choices[i].choiceName;
+                int index = i; // 捕获当前的i值
+                choices[i].onClick.RemoveAllListeners(); // 移除之前的监听器，避免重复添加
+                choices[i].onClick.AddListener(() => currentBlock.blockEvent.choices[index].choiceFunc.Invoke());
+                choices[i].onClick.AddListener(() => eventDescription.text = currentBlock.blockEvent.choices[index].choiceDesc); // 更新事件描述
+                choices[i].onClick.AddListener(() => closeBtn.gameObject.SetActive(true)); // 选择后显示结束按钮
+                choices[i].onClick.AddListener(() => choices[index].gameObject.SetActive(false));
+            }
+        }
+        closeBtn.onClick.RemoveAllListeners(); // 移除之前的监听器，避免重复添加
+        closeBtn.onClick.AddListener(() => eventUI.SetActive(false)); // 选择后关闭事件UI
+        closeBtn.gameObject.SetActive(false);
+        eventName.text = currentBlock.blockEvent.eventName;
+        eventDescription.text = currentBlock.blockEvent.eventDesc;
+        eventUI.SetActive(true);
     }
     private void NpcEventInvoke(int steps)
     {
@@ -287,20 +287,19 @@ public class MapManager : MonoBehaviour
         else if (random < 9)
         {
             Debug.Log("Event");
-            return new Block(E_BlockType.Event);
+            return new Block(E_BlockType.Event,new TestWorkEvent());
         }
         else
         {
             Debug.Log("Important");
-            return new Block(E_BlockType.Important);
+            return new Block(E_BlockType.Important,new TestRestEvent());
         }
     }
-
-
     #endregion
 
     #region 游戏结束判定
     [Header("游戏结束")]
+    public int maxSteps;
     public TextMeshProUGUI title;
     public TextMeshProUGUI description;
     public TextMeshProUGUI overword;
@@ -328,7 +327,7 @@ public class MapManager : MonoBehaviour
             GameManager.Instance.SwitchState(GameState.GameOver);
             SetOverPanel("A4结局","缘分已尽");
         }
-        else if (p.stepCount < 10)
+        else if (p.stepCount < maxSteps)
         {
             Debug.Log("当前步数："+PlayerDataManager.Instance.playerData.stepCount);
             return;
