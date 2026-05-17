@@ -27,6 +27,7 @@ public class MapManager : MonoBehaviour
         MapGenerator.Instance.MapInit();
         currentBlock = playerBlocks[0];
         PlayerPlanInvoke();
+        //npcBlocks[1] = new Block(E_BlockType.Event,new TestInteractEvent());
 
     }
     #region 地图生成
@@ -148,7 +149,7 @@ public class MapManager : MonoBehaviour
     }
     private void NpcEventInvoke(int steps)
     {
-        // NPC事件触发逻辑
+        NpcController.Instance.GetChoice(npcBlocks[PlayerDataManager.Instance.playerData.stepCount].blockEvent);
     }
     private void PlayerPlanInvoke()
     {

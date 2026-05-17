@@ -17,6 +17,14 @@ public enum E_EventType
     Interact,
     Self_Improvement,
 }
+public enum E_ChoiceType
+{
+    positive,
+    normal,
+    extreme,
+    chaos,
+    conservative
+}
 public class Block
 {
     public E_BlockType blockType;
@@ -54,6 +62,7 @@ public class Choice
     public string choiceName;
     public string choiceDesc;
     public Action choiceFunc;
+    public E_ChoiceType choiceType;
     public Choice(string choiceName, string choiceDesc, Action choiceFunc) 
     {
         this.choiceName = choiceName;
