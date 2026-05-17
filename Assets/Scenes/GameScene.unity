@@ -3640,6 +3640,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 986690536}
   m_CullTransparentMesh: 1
+--- !u!1 &1022403712
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1022403714}
+  - component: {fileID: 1022403713}
+  m_Layer: 0
+  m_Name: MapGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1022403713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022403712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4959fbc8c4851f74bad4d1003a546fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMap: {fileID: 1162952275}
+  npcMap: {fileID: 1876417748}
+  planePrefab: {fileID: 4804762698030940070, guid: 3e1f580dbc838f74491490ffa5523abc, type: 3}
+  emptyMaterial: {fileID: 2100000, guid: 1eed142df9c461d4b8b9f7c4405cc4f9, type: 2}
+  eventMaterial: {fileID: 2100000, guid: c22ed3d7cd1ebf040baedaf27656544d, type: 2}
+  importantEventMaterial: {fileID: 2100000, guid: 350897ea7b80320498f0b78ba48c4b0a, type: 2}
+  planMaterial: {fileID: 2100000, guid: 1bb6286e914594a4b8b198e88c2872bf, type: 2}
+  unknownMaterial: {fileID: 2100000, guid: 29b7c3fd6d7965f41bdf6d5d4b305cc5, type: 2}
+--- !u!4 &1022403714
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022403712}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 21.404379, y: 14.83903, z: 32.37129}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1039280390
 GameObject:
   m_ObjectHideFlags: 0
@@ -9000,3 +9052,4 @@ SceneRoots:
   - {fileID: 1039280395}
   - {fileID: 1079824913}
   - {fileID: 1942178573}
+  - {fileID: 1022403714}

@@ -95,12 +95,12 @@ public class DragPlan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         if (tag == "Player")
         {
             MapManager.Instance.playerBlocks[id] =Assign(assignEvent);
-            MapManager.Instance.SetMap();
+            MapGenerator.Instance.SetMap();
         }
         else if (tag == "Npc")
         {
            MapManager.Instance.npcBlocks[id] =Assign(assignEvent);
-            MapManager.Instance.SetMap();
+            MapGenerator.Instance.SetMap();
         }
     }
     private Block Assign(E_EventType assignEvent)
