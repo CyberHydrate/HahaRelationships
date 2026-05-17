@@ -17,32 +17,32 @@ public class NpcController
     int chaosValue = 1;
     int conservativeValue = 1;
 
-    public Action GetChoice(BlockEvent blockEvent)
+    public Action GetChoice(int eventId)
     {
-        int i = blockEvent.choiceCount;
+        int i = ExcelReader.eventData[eventId].choiceCount;
         int sum = 0;
         int[] value = { 0, 0, 0, 0, 0 };
         for (int j = 0; j < i; j++)
         {
-            switch (blockEvent.choices[j].choiceType)
+            switch (ExcelReader.eventData[eventId].choices[j].choiceType)
             {
-                case E_ChoiceType.positive:
+                case E_ChoiceType.积极:
                     value[j] = positiveValue;
                     sum += positiveValue;
                     break;
-                case E_ChoiceType.normal:
+                case E_ChoiceType.正常:
                     value[j] = normalValue;
                     sum += normalValue;
                     break;
-                case E_ChoiceType.extreme:
+                case E_ChoiceType.极端:
                     value[j] = extremeValue;
                     sum += extremeValue;
                     break;
-                case E_ChoiceType.chaos:
+                case E_ChoiceType.混沌:
                     value[j] = chaosValue;
                     sum += chaosValue;
                     break;
-                case E_ChoiceType.conservative:
+                case E_ChoiceType.保守:
                     value[j] = conservativeValue;
                     sum += conservativeValue;
                     break;
@@ -59,7 +59,7 @@ public class NpcController
             {
                 return null;
             }
-            return blockEvent.choices[0].choiceFunc;
+            return Events.events[eventId].choices[0];
         }
         else if (random < value[0] + value[1])
         {
@@ -68,7 +68,7 @@ public class NpcController
             { 
                 return null; 
             }
-            return blockEvent.choices[1].choiceFunc;
+            return Events.events[eventId].choices[1];
         }
         else if(random < value[0]  + value[1] + value[2])
         {
@@ -77,7 +77,7 @@ public class NpcController
             {
                 return null;
             }
-            return blockEvent.choices[2].choiceFunc;
+            return Events.events[eventId].choices[2];
         }
         else if(random<value[0] + value[1] + value[2] + value[3])
         {
@@ -86,7 +86,7 @@ public class NpcController
             {
                 return null;
             }
-            return blockEvent.choices[3].choiceFunc;
+            return Events.events[eventId].choices[3];
         }
         else
         {
@@ -95,7 +95,7 @@ public class NpcController
             {
                 return null;
             }
-            return blockEvent.choices[4].choiceFunc;
+            return Events.events[eventId].choices[4];
         }
     }
 }

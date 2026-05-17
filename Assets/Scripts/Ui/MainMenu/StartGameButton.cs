@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;   
 
@@ -7,6 +8,7 @@ public class StartGameButton : MonoBehaviour
     public Button yesBtn;
     public Button noBtn;
     public GameObject saveTip;
+    public TextMeshProUGUI tip;
     private void Awake()
     {
         yesBtn.onClick.RemoveAllListeners();
@@ -30,6 +32,7 @@ public class StartGameButton : MonoBehaviour
         {
             if(SaveManager.Instance.CheckSaveFile())
             {
+                tip.text = "检测到已有存档，确定要覆盖吗？";
                 saveTip.SetActive(true);
             }
             else

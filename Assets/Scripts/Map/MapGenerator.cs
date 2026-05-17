@@ -52,7 +52,7 @@ public class MapGenerator:MonoBehaviour
             if (targetIndex % 7 == 0)
                 continue;
 
-            if (targetBlocks[targetIndex] == null || targetBlocks[targetIndex].blockType == E_BlockType.Unknown)
+            if (targetBlocks[targetIndex] == null || targetBlocks[targetIndex].blockType == E_BlockType.未知)
             {
                 targetBlocks[targetIndex] = GetRandomBlockByWeight();
             }
@@ -74,19 +74,19 @@ public class MapGenerator:MonoBehaviour
             //}
             switch (playerBlocks[i].blockType)
             {
-                case E_BlockType.Empty:
+                case E_BlockType.空:
                     playerMapList[i].GetComponent<MeshRenderer>().material = emptyMaterial;
                     break;
-                case E_BlockType.Event:
+                case E_BlockType.事件:
                     playerMapList[i].GetComponent<MeshRenderer>().material = eventMaterial;
                     break;
-                case E_BlockType.Important:
+                case E_BlockType.重要事件:
                     playerMapList[i].GetComponent<MeshRenderer>().material = importantEventMaterial;
                     break;
-                case E_BlockType.Plan:
+                case E_BlockType.计划:
                     playerMapList[i].GetComponent<MeshRenderer>().material = planMaterial;
                     break;
-                case E_BlockType.Unknown:
+                case E_BlockType.未知:
                     playerMapList[i].GetComponent<MeshRenderer>().material = unknownMaterial;
                     break;
                 default:
@@ -105,36 +105,26 @@ public class MapGenerator:MonoBehaviour
         if (random < 7)
         {
             Debug.Log("Empty");
-            return new Block(E_BlockType.Empty);
+            return new Block(E_BlockType.空);
         }
         else if (random < 9)
         {
             Debug.Log("Event");
-            int i = Random.Range(0, 9);
+            int i = Random.Range(0, 5);
             switch (i)
             {
                 case 0:
-                    return new Block(E_BlockType.Event, new TestWorkEvent());
+                    return new Block(E_BlockType.事件, new TestWorkEvent());
                 case 1:
-                    return new Block(E_BlockType.Event, new TestEntertainmentEvent());
+                    return new Block(E_BlockType.事件, new TestEntertainmentEvent());
                 case 2:
-                    return new Block(E_BlockType.Event, new TestRestEvent());
+                    return new Block(E_BlockType.事件, new TestRestEvent());
                 case 3:
-                    return new Block(E_BlockType.Event, new TestInteractEvent());
+                    return new Block(E_BlockType.事件, new TestInteractEvent());
                 case 4:
-                    return new Block(E_BlockType.Event, new Event6());
-                case 5:
-                    return new Block(E_BlockType.Event, new Event7());
-                case 6:
-                    return new Block(E_BlockType.Event, new Event8());
-                case 7:
-                    return new Block(E_BlockType.Event, new Event9());
-                case 8:
-                    return new Block(E_BlockType.Event, new Event10());
-                case 9:
-                    return new Block(E_BlockType.Event, new TestSelfEvent());
+                    return new Block(E_BlockType.事件, new TestSelfEvent());
                 default:
-                    return new Block(E_BlockType.Event, new TestRestEvent());
+                    return new Block(E_BlockType.事件, new TestRestEvent());
             }
         }
         else
@@ -142,37 +132,27 @@ public class MapGenerator:MonoBehaviour
             if (currentStep <= 16)
             {
                 Debug.Log("Important blocked (step ≤16), generate Event instead");
-                int i = Random.Range(0, 9);
+                int i = Random.Range(0, 5);
                 switch (i)
                 {
                     case 0:
-                        return new Block(E_BlockType.Event, new TestWorkEvent());
+                        return new Block(E_BlockType.事件, new TestWorkEvent());
                     case 1:
-                        return new Block(E_BlockType.Event, new TestEntertainmentEvent());
+                        return new Block(E_BlockType.事件, new TestEntertainmentEvent());
                     case 2:
-                        return new Block(E_BlockType.Event, new TestRestEvent());
+                        return new Block(E_BlockType.事件, new TestRestEvent());
                     case 3:
-                        return new Block(E_BlockType.Event, new TestInteractEvent());
+                        return new Block(E_BlockType.事件, new TestInteractEvent());
                     case 4:
-                        return new Block(E_BlockType.Event, new Event6());
-                    case 5:
-                        return new Block(E_BlockType.Event, new Event7());
-                    case 6:
-                        return new Block(E_BlockType.Event, new Event8());
-                    case 7:
-                        return new Block(E_BlockType.Event, new Event9());
-                    case 8:
-                        return new Block(E_BlockType.Event, new Event10());
-                    case 9:
-                        return new Block(E_BlockType.Event, new TestSelfEvent());
+                        return new Block(E_BlockType.事件, new TestSelfEvent());
                     default:
-                        return new Block(E_BlockType.Event, new TestRestEvent());
+                        return new Block(E_BlockType.事件, new TestRestEvent());
                 }
             }
             else
             {
                 Debug.Log("Important");
-                return new Block(E_BlockType.Important, new TestRestEvent());
+                return new Block(E_BlockType.重要事件, new TestRestEvent());
             }
         }
     }
@@ -215,11 +195,11 @@ public class MapGenerator:MonoBehaviour
         {
             if (i % 7 == 0)
             {
-                blocks[i] = new Block(E_BlockType.Plan);
+                blocks[i] = new Block(E_BlockType.计划);
             }
             else
             {
-                blocks[i] = new Block(E_BlockType.Unknown);
+                blocks[i] = new Block(E_BlockType.未知);
             }
         }
     }

@@ -10,9 +10,7 @@ public class ConfirmButton : MonoBehaviour
     public ToggleGroup playerGender;
     public ToggleGroup npcGender;
     public ToggleGroup relationship;
-    public TMP_Dropdown characteristic1;
-    public TMP_Dropdown characteristic2;
-    public TMP_Dropdown characteristic3;
+    public TMP_Dropdown characteristic;
     private void Awake()
     {
         confirmBtn = GetComponent<Button>();
@@ -27,7 +25,7 @@ public class ConfirmButton : MonoBehaviour
         string playerGenderValue = playerGender.ActiveToggles().FirstOrDefault().name;
         string npcGenderValue = npcGender.GetFirstActiveToggle().name;
         string relationshipValue = relationship.GetFirstActiveToggle().name;
-        PlayerDataManager.Instance.playerData = new PlayerData(playerName.text, npcName.text, playerGenderValue, npcGenderValue, relationshipValue, characteristic1.value, characteristic2.value, characteristic3.value, 50, 100, 0f, 0, 50);
+        PlayerDataManager.Instance.playerData = new PlayerData(playerName.text, npcName.text, playerGenderValue, npcGenderValue, relationshipValue, characteristic.value,  50, 100, 0f, 0, 50);
         SaveManager.Instance.SaveData(PlayerDataManager.Instance.playerData);
         GameManager.Instance.SwitchState(GameState.Playing);
     }

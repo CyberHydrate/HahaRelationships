@@ -40,6 +40,6 @@ public class SaveManager
         string path = GetSavePath();
         PlayerData data= JsonUtility.FromJson<PlayerData>(File.ReadAllText(path));
         PlayerDataManager.Instance.playerData = data;
-        Debug.Log(data.playerName+data.npcName+data.playerGender+data.npcGender+data.relationship+data.characteristic1+data.characteristic2+data.characteristic3);
+        Debug.Log(data.playerName+data.npcName+data.playerGender+data.npcGender+data.relationship+data.characteristic);
     }
 }

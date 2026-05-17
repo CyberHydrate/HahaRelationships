@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,11 +21,10 @@ public class MapManager : MonoBehaviour
     public GameObject npc;
     private void Start()
     {
+        Debug.Log(PlayerDataManager.Instance.playerData.relationship);
         MapGenerator.Instance.MapInit();
-        currentBlock = playerBlocks[0];
-        PlayerPlanInvoke();
-        //npcBlocks[1] = new Block(E_BlockType.Event,new TestInteractEvent());
-
+        _Move(player, MapGenerator.Instance.playerMapList);
+        _Move(npc, MapGenerator.Instance.npcMapList);
     }
     #region 地图生成
     
@@ -63,6 +59,7 @@ public class MapManager : MonoBehaviour
     public GameObject eventUI;
     public TextMeshProUGUI eventName;
     public TextMeshProUGUI eventDescription;
+    public GameObject choiceList;
     public Button[] choices;
     public Button closeBtn;
     [Header("日程")]
@@ -72,19 +69,19 @@ public class MapManager : MonoBehaviour
         int i = PlayerDataManager.Instance.playerData.stepCount;
         if (playerBlocks[i] != null)
         {
-            if (playerBlocks[i].blockType == E_BlockType.Event)
+            if (playerBlocks[i].blockType == E_BlockType.事件)
             {
                 PlayerEventInvoke();
             }
-            else if (playerBlocks[i].blockType == E_BlockType.Plan)
+            else if (playerBlocks[i].blockType == E_BlockType.计划)
             {
                 PlayerPlanInvoke();
             }
-            else if (playerBlocks[i].blockType == E_BlockType.Important)
+            else if (playerBlocks[i].blockType == E_BlockType.重要事件)
             {
                 PlayerEventInvoke();
             }
-            else if (playerBlocks[i].blockType == E_BlockType.Empty)
+            else if (playerBlocks[i].blockType == E_BlockType.空)
             {
 
             }
@@ -95,19 +92,19 @@ public class MapManager : MonoBehaviour
         int i = PlayerDataManager.Instance.playerData.stepCount; 
         if (npcBlocks[i] != null)
         {
-            if (npcBlocks[i].blockType == E_BlockType.Event)
+            if (npcBlocks[i].blockType == E_BlockType.事件)
             {
                 NpcEventInvoke(i);
             }
-            else if (npcBlocks[i].blockType == E_BlockType.Plan)
+            else if (npcBlocks[i].blockType == E_BlockType.计划)
             {
-                NpcScheduleInvoke();
+                NpcPlanInvoke();
             }
-            else if (npcBlocks[i].blockType == E_BlockType.Important)
+            else if (npcBlocks[i].blockType == E_BlockType.重要事件)
             {
                 NpcEventInvoke(i);
             }
-            else if (npcBlocks[i].blockType == E_BlockType.Empty)
+            else if (npcBlocks[i].blockType == E_BlockType.空)
             {
 
             }
@@ -115,60 +112,48 @@ public class MapManager : MonoBehaviour
     }
     private void PlayerEventInvoke()
     {
+        int id = currentBlock.blockEvent.eventId-1;
         for (int i = 0; i < 5; i++)
         {
-            if (i>currentBlock.blockEvent.choiceCount-1)
+            if (i >= ExcelReader.eventData[id].choiceCount)
             {
                 choices[i].gameObject.SetActive(false);
             }
             else
             {
-                choices[i].gameObject.SetActive(true);
-                choices[i].GetComponentInChildren<TextMeshProUGUI>().text = currentBlock.blockEvent.choices[i].choiceName;
-                int index = i; // 捕获当前的i值
-                choices[i].onClick.RemoveAllListeners(); // 移除之前的监听器，避免重复添加
-                
-                choices[i].onClick.AddListener(() => currentBlock.blockEvent.choices[index].choiceFunc.Invoke());
-                choices[i].onClick.AddListener(() => eventDescription.text = currentBlock.blockEvent.choices[index].choiceDesc); // 更新事件描述
-                choices[i].onClick.AddListener(() => closeBtn.gameObject.SetActive(true)); // 选择后显示结束按钮
-                choices[i].onClick.AddListener(() => choices[0].gameObject.SetActive(false));
-                choices[i].onClick.AddListener(() => choices[1].gameObject.SetActive(false));
-                choices[i].onClick.AddListener(() => choices[2].gameObject.SetActive(false));
-                choices[i].onClick.AddListener(() => choices[3].gameObject.SetActive(false));
-                choices[i].onClick.AddListener(() => choices[4].gameObject.SetActive(false));
+                int index = i;
+                choices[index].gameObject.SetActive(true);
+                Debug.Log("id="+(id+1)+"第"+i+ExcelReader.eventData[id].choices[index].choiceName);
+                choices[index].GetComponentInChildren<TextMeshProUGUI>().text = ExcelReader.eventData[id].choices[index].choiceName;
+                choices[index].onClick.RemoveAllListeners(); // 移除之前的监听器，避免重复添加
 
-
+                choices[index].onClick.AddListener(() => Events.events[id].choices[index].Invoke());
+                choices[index].onClick.AddListener(() => eventDescription.text = ExcelReader.eventData[id].choices[index].choiceDesc);
+                choices[index].onClick.AddListener(() => closeBtn.gameObject.SetActive(true)); // 选择后显示结束按钮
+                choices[index].onClick.AddListener(() => choiceList.SetActive(false));
             }
         }
+        choiceList.SetActive(true);
         closeBtn.onClick.RemoveAllListeners(); // 移除之前的监听器，避免重复添加
         closeBtn.onClick.AddListener(() => eventUI.SetActive(false)); // 选择后关闭事件UI
         closeBtn.gameObject.SetActive(false);
-        eventName.text = currentBlock.blockEvent.eventName;
-        eventDescription.text = currentBlock.blockEvent.eventDesc;
+        eventName.text = ExcelReader.eventData[id].eventName;
+        eventDescription.text = ExcelReader.eventData[id].eventDesc;
         eventUI.SetActive(true);
     }
     private void NpcEventInvoke(int steps)
     {
-        NpcController.Instance.GetChoice(npcBlocks[PlayerDataManager.Instance.playerData.stepCount].blockEvent);
+        //NpcController.Instance.GetChoice(npcBlocks[PlayerDataManager.Instance.playerData.stepCount].blockEvent.eventId);
     }
     private void PlayerPlanInvoke()
     {
         scheduleUI.SetActive(true);
         MapGenerator.Instance.GenerateNext7BlocksWhenOnPlan(true);
     }
-    private void NpcScheduleInvoke()
+    private void NpcPlanInvoke()
     {
         MapGenerator.Instance.GenerateNext7BlocksWhenOnPlan(false);
     }
-    #endregion
-
-    #region 地图区块分配
-
-   
-
-
-
-
     #endregion
 
     #region 游戏结束判定
@@ -236,7 +221,7 @@ public class MapManager : MonoBehaviour
         PlayerData p = PlayerDataManager.Instance.playerData;
         title.text = name;
         description.text = desc;
-        overword.text = p.playerName + " 和 " + p.npcName + " 以 " + p.relationship + " 关系，在经过了 " + p.stepCount + " 步后达成了结局 " + name;
+        overword.text = $"{p.playerName} 和 {p.npcName}  以 {p.relationship}  关系，在经过了 {p.stepCount}  步后达成了结局 {name}";
         data.text = "当前数值：\n" + "玩家心理健康：" + p.playerhp + "\n" + "npc心理健康：" + p.npchp + "\n" + "羁绊值：" + p.relationshiphp + "\n" + "心之壁厚度：" + p.heartWallWidth;
     }
     #endregion

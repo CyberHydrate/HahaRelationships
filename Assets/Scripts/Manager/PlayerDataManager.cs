@@ -9,24 +9,20 @@ public class PlayerData
     public string playerGender;
     public string npcGender;
     public string relationship;
-    public int characteristic1;
-    public int characteristic2;
-    public int characteristic3;
+    public int characteristic;
     public float heartWallWidth;
     public int stepCount;
     public int playerhp;
     public int npchp;
     public int relationshiphp;
-    public PlayerData(string playerName, string npcName, string playerGender, string npcGender, string relationship, int characteristic1, int characteristic2, int characteristic3, int playerhp, int npchp, float heartWallWidth, int stepCount,  int relationshiphp)
+    public PlayerData(string playerName, string npcName, string playerGender, string npcGender, string relationship, int characteristic, int playerhp, int npchp, float heartWallWidth, int stepCount,  int relationshiphp)
     {
         this.playerName = playerName;
         this.npcName = npcName;
         this.playerGender = playerGender;
         this.npcGender = npcGender;
         this.relationship = relationship;
-        this.characteristic1 = characteristic1;
-        this.characteristic2 = characteristic2;
-        this.characteristic3 = characteristic3;
+        this.characteristic = characteristic;
 
         this.playerhp = playerhp;
         this.npchp = npchp;
