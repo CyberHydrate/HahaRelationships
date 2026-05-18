@@ -36,8 +36,8 @@ public class MapGenerator:MonoBehaviour
 
     public void GenerateNext7BlocksWhenOnPlan(bool isPlayer)
     {
-        Block[] playerBlocks = MapManager.Instance.playerBlocks;
-        Block[] npcBlocks = MapManager.Instance.npcBlocks;
+        Block[] playerBlocks = BlockManager.Instance.playerBlocks;
+        Block[] npcBlocks = BlockManager.Instance.npcBlocks;
 
         int currentIndex = PlayerDataManager.Instance.playerData.stepCount;
         Block[] targetBlocks = isPlayer ? playerBlocks : npcBlocks;
@@ -63,8 +63,8 @@ public class MapGenerator:MonoBehaviour
 
     public void SetMap()
     {
-        Block[] playerBlocks = MapManager.Instance.playerBlocks;
-        Block[] npcBlocks = MapManager.Instance.npcBlocks;
+        Block[] playerBlocks = BlockManager.Instance.playerBlocks;
+        Block[] npcBlocks = BlockManager.Instance.npcBlocks;
 
         for (int i = 0; i < 100; i++)
         {
@@ -160,8 +160,10 @@ public class MapGenerator:MonoBehaviour
     public void MapInit()
     {
         GenerateMap();
-        InitFixedPlanBlocks(MapManager.Instance.playerBlocks);
-        InitFixedPlanBlocks(MapManager.Instance.npcBlocks);
+        InitFixedPlanBlocks(BlockManager.Instance.playerBlocks);
+        InitFixedPlanBlocks(BlockManager.Instance.npcBlocks);
+        GenerateNext7BlocksWhenOnPlan(true);
+        GenerateNext7BlocksWhenOnPlan(false);
         SetMap();
     }
     public void GenerateMap()
@@ -202,6 +204,7 @@ public class MapGenerator:MonoBehaviour
                 blocks[i] = new Block(E_BlockType.δ֪);
             }
         }
+        
     }
 
 }
