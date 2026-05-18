@@ -114,17 +114,17 @@ public class MapGenerator:MonoBehaviour
             switch (i)
             {
                 case 0:
-                    return new Block(E_BlockType.事件, new TestWorkEvent());
+                    return new Block(E_BlockType.事件, new WorkEvent1());
                 case 1:
-                    return new Block(E_BlockType.事件, new TestEntertainmentEvent());
+                    return new Block(E_BlockType.事件, new EntertainEvent1());
                 case 2:
-                    return new Block(E_BlockType.事件, new TestRestEvent());
+                    return new Block(E_BlockType.事件, new RestEvent());
                 case 3:
-                    return new Block(E_BlockType.事件, new TestInteractEvent());
+                    return new Block(E_BlockType.事件, new InteractEvent1());
                 case 4:
-                    return new Block(E_BlockType.事件, new TestSelfEvent());
+                    return new Block(E_BlockType.事件, new SelfEvent1());
                 default:
-                    return new Block(E_BlockType.事件, new TestRestEvent());
+                    return new Block(E_BlockType.事件, new RestEvent());
             }
         }
         else
@@ -136,23 +136,23 @@ public class MapGenerator:MonoBehaviour
                 switch (i)
                 {
                     case 0:
-                        return new Block(E_BlockType.事件, new TestWorkEvent());
+                        return new Block(E_BlockType.事件, new WorkEvent1());
                     case 1:
-                        return new Block(E_BlockType.事件, new TestEntertainmentEvent());
+                        return new Block(E_BlockType.事件, new EntertainEvent1());
                     case 2:
-                        return new Block(E_BlockType.事件, new TestRestEvent());
+                        return new Block(E_BlockType.事件, new RestEvent());
                     case 3:
-                        return new Block(E_BlockType.事件, new TestInteractEvent());
+                        return new Block(E_BlockType.事件, new InteractEvent1());
                     case 4:
-                        return new Block(E_BlockType.事件, new TestSelfEvent());
+                        return new Block(E_BlockType.事件, new SelfEvent1());
                     default:
-                        return new Block(E_BlockType.事件, new TestRestEvent());
+                        return new Block(E_BlockType.事件, new RestEvent());
                 }
             }
             else
             {
                 Debug.Log("Important");
-                return new Block(E_BlockType.重要事件, new TestRestEvent());
+                return new Block(E_BlockType.重要事件, new RestEvent());
             }
         }
     }

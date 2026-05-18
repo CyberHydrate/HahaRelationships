@@ -141,7 +141,7 @@ public class WorkEvent4 : BlockEvent
     public WorkEvent4()
     {
         eventId = 4;
-        choices = new Action[5] { () => ChangePlayerhp(0), () => ChangeRelationshiphp(-5), () => ChangePlayerhp(0), ChangeRelationshiphp(-3), () => ChangePlayerhp(2) };
+        choices = new Action[5] { () => ChangePlayerhp(0), () => ChangeRelationshiphp(-5), () => ChangePlayerhp(0), ()=>ChangeRelationshiphp(-3), () => ChangePlayerhp(2) };
 
     }
 }
@@ -234,7 +234,7 @@ public class WorkEvent13 : BlockEvent
     public WorkEvent13()
     {
         eventId = 13;
-        choices = new Action[5] { Func1 () => ChangePlayerhp(5), () => ChangePlayerhp(0), () => ChangePlayerhp(-20), () => ChangePlayerhp(10), () => ChangePlayerhp(-5) };
+        choices = new Action[5] { () => ChangePlayerhp(5), () => ChangePlayerhp(0), () => ChangePlayerhp(-20), () => ChangePlayerhp(10), () => ChangePlayerhp(-5) };
 
     }
 
@@ -265,7 +265,7 @@ public class EntertainEvent2 : BlockEvent
     public EntertainEvent2()
     {
         eventId = 16;
-        choices = new Action[4] { () => ChangePlayerhp(-5), () => ChangePlayerhp(-), () => ChangePlayerhp(1), () => ChangePlayerhp(0) };
+        choices = new Action[4] { () => ChangePlayerhp(-5), () => ChangePlayerhp(5), () => ChangePlayerhp(1), () => ChangePlayerhp(0) };
 
     }
 }
@@ -295,7 +295,7 @@ public class EntertainEvent5 : BlockEvent
     public EntertainEvent5()
     {
         eventId = 19;
-        choices = new Action[4] { () => ChangePlayerhp(2), () => ChangePlayerhp(), () => ChangePlayerhp(0), () => ChangePlayerhp(0) };
+        choices = new Action[4] { () => ChangePlayerhp(2), () => ChangePlayerhp(-10), () => ChangePlayerhp(0), () => ChangePlayerhp(0) };
 
     }
 }
