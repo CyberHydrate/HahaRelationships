@@ -89,6 +89,7 @@ public class Block
 public class BlockEvent
 {
     public int eventId;
+    public E_EventType eventType;
     public Action[] choices;
     public Func<bool> generateCheck;
     public void ChangePlayerhp(int i)

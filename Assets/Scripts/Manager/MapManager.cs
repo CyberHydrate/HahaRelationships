@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,12 +20,25 @@ public class MapManager : MonoBehaviour
     #endregion
     public GameObject player;
     public GameObject npc;
+    public Action Init;
+    public Action beforeMove;
+    public Action afterMove;
     private void Start()
     {
-        Debug.Log(PlayerDataManager.Instance.playerData.relationship);
-        MapGenerator.Instance.MapInit();
+        //switch (Characters.characters[PlayerDataManager.Instance.playerData.characteristic].characterType)
+        //{
+        //    case E_CharacterType.初始:
+        //        Init += Characters.characters[PlayerDataManager.Instance.playerData.characteristic].effect;
+        //        break;
+        //    case E_CharacterType.行动后:
+        //        afterMove += Characters.characters[PlayerDataManager.Instance.playerData.characteristic].effect;
+        //        break;
+        //}
+        Init+=MapGenerator.Instance.MapInit;
         _Move(player, MapGenerator.Instance.playerMapList);
         _Move(npc, MapGenerator.Instance.npcMapList);
+        Init.Invoke();
+
     }
 
     private void _Move(GameObject obj, GameObject[] maplist)
@@ -39,6 +53,7 @@ public class MapManager : MonoBehaviour
         BlockManager.Instance.PlayerInvokeBlock();
         _Move(npc, MapGenerator.Instance.npcMapList);
         BlockManager.Instance.NpcInvokeBlock();
+        afterMove.Invoke();
         GameOverCheck.Instance.Check();
     }
 
