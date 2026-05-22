@@ -13,6 +13,7 @@ public class DragPlan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private RectTransform _cloneRect;
     private Canvas _canvas;
     private Vector2 _offset;
+    public MapGenerator mapGenerator;
 
     void Awake()
     {
@@ -66,8 +67,8 @@ public class DragPlan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             // 拿到击中的物体
             GameObject hitObj = hit.collider.gameObject;
             int id = hitObj.GetComponent<blockID>().id;
-            Debug.Log($"击中场景物体：{hitObj.name} | 标签：{hitObj.tag}|序号：{id},地块类型为{ BlockManager.Instance.playerBlocks[id].blockType.ToString()}");
-            if (BlockManager.Instance.playerBlocks[id].blockType==E_BlockType.空)
+            Debug.Log($"击中场景物体：{hitObj.name} | 标签：{hitObj.tag}|序号：{id},地块类型为{   PlayerDataManager.Instance.playerData.playerBlocks[id].blockType.ToString()}");
+            if (PlayerDataManager.Instance.playerData.playerBlocks[id].blockType==E_BlockType.空)
             SetEvent(id, hitObj.tag);
         }
         else
@@ -94,13 +95,13 @@ public class DragPlan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         if (tag == "Player")
         {
-            BlockManager.Instance.playerBlocks[id] =Assign(assignEvent);
-            MapGenerator.Instance.SetMap();
+            PlayerDataManager.Instance.playerData.playerBlocks[id] =Assign(assignEvent);
+            mapGenerator.SetMap();
         }
         else if (tag == "Npc")
         {
-           BlockManager.Instance.npcBlocks[id] =Assign(assignEvent);
-            MapGenerator.Instance.SetMap();
+            PlayerDataManager.Instance.playerData.npcBlocks[id] =Assign(assignEvent);
+            mapGenerator.SetMap();
         }
     }
     private Block Assign(E_EventType assignEvent)

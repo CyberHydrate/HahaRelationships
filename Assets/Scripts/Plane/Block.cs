@@ -70,6 +70,7 @@ public static class Events
         new SelfEvent2(),
         };
 }
+[Serializable]
 public class Block
 {
     public E_BlockType blockType;

@@ -5,19 +5,6 @@ using UnityEngine.UI;
 
 public class MapGenerator:MonoBehaviour
 {
-    #region 单例模式实现
-    public static MapGenerator Instance { get; private set; }
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        //DontDestroyOnLoad(gameObject);
-    }
-    #endregion
     public Transform playerMap;
     public Transform npcMap;
     public GameObject planePrefab;
@@ -33,18 +20,25 @@ public class MapGenerator:MonoBehaviour
     [System.NonSerialized]
     public GameObject[] npcMapList = new GameObject[101];
 
-
+    private int GetSteps()
+    {
+        return PlayerDataManager.Instance.playerData.stepCount;
+    }
+    private Block[] GetPlayerBlocks()
+    {
+        return PlayerDataManager.Instance.playerData.playerBlocks;
+    }
+    private Block[] GetNpcBlocks()
+    {
+        return PlayerDataManager.Instance.playerData.npcBlocks;
+    }
     public void GenerateNext7BlocksWhenOnPlan(bool isPlayer)
     {
-        Block[] playerBlocks = BlockManager.Instance.playerBlocks;
-        Block[] npcBlocks = BlockManager.Instance.npcBlocks;
-
-        int currentIndex = PlayerDataManager.Instance.playerData.stepCount;
-        Block[] targetBlocks = isPlayer ? playerBlocks : npcBlocks;
+        Block[] targetBlocks = isPlayer ? PlayerDataManager.Instance.playerData.playerBlocks : PlayerDataManager.Instance.playerData.npcBlocks;
 
         for (int i = 1; i <= 7; i++)
         {
-            int targetIndex = currentIndex + i;
+            int targetIndex = GetSteps() + i;
 
             if (targetIndex >= 100)
                 break;
@@ -56,6 +50,7 @@ public class MapGenerator:MonoBehaviour
             {
                 targetBlocks[targetIndex] = GetRandomBlockByWeight();
             }
+            Debug.Log((GetSteps()+i).ToString()+ PlayerDataManager.Instance.playerData.playerBlocks[GetSteps()+i].blockType);
         }
 
         SetMap();
@@ -63,16 +58,10 @@ public class MapGenerator:MonoBehaviour
 
     public void SetMap()
     {
-        Block[] playerBlocks = BlockManager.Instance.playerBlocks;
-        Block[] npcBlocks = BlockManager.Instance.npcBlocks;
 
         for (int i = 0; i < 100; i++)
         {
-            //if (playerBlocks[i]==null)
-            //{
-            //    playerBlocks[i] = new Block(E_BlockType.Empty);
-            //}
-            switch (playerBlocks[i].blockType)
+            switch (GetPlayerBlocks()[i].blockType)
             {
                 case E_BlockType.空:
                     playerMapList[i].GetComponent<MeshRenderer>().material = emptyMaterial;
@@ -90,7 +79,7 @@ public class MapGenerator:MonoBehaviour
                     playerMapList[i].GetComponent<MeshRenderer>().material = unknownMaterial;
                     break;
                 default:
-                    playerMapList[i].GetComponent<MeshRenderer>().material = unknownMaterial;
+                    Debug.Log("如果你看到这句话，那么地块生成错误");
                     break;
             }
         }
@@ -104,12 +93,10 @@ public class MapGenerator:MonoBehaviour
 
         if (random < 7)
         {
-            Debug.Log("Empty");
             return new Block(E_BlockType.空);
         }
         else if (random < 9)
         {
-            Debug.Log("Event");
             int i = Random.Range(0, 5);
             switch (i)
             {
@@ -144,7 +131,7 @@ public class MapGenerator:MonoBehaviour
                     case 3:
                         return new Block(E_BlockType.事件, new InteractEvent1());
                     case 4:
-                        return new Block(E_BlockType.事件, new SelfEvent1());
+                        return new Block(E_BlockType.事件, new WorkEvent10());
                     default:
                         return new Block(E_BlockType.事件, new RestEvent());
                 }
@@ -160,10 +147,8 @@ public class MapGenerator:MonoBehaviour
     public void MapInit()
     {
         GenerateMap();
-        InitFixedPlanBlocks(BlockManager.Instance.playerBlocks);
-        InitFixedPlanBlocks(BlockManager.Instance.npcBlocks);
-        GenerateNext7BlocksWhenOnPlan(true);
-        GenerateNext7BlocksWhenOnPlan(false);
+        InitFixedPlanBlocks(PlayerDataManager.Instance.playerData.playerBlocks);//生成日程格
+        InitFixedPlanBlocks(PlayerDataManager.Instance.playerData.npcBlocks);
         SetMap();
     }
     public void GenerateMap()
@@ -198,10 +183,6 @@ public class MapGenerator:MonoBehaviour
             if (i % 7 == 0)
             {
                 blocks[i] = new Block(E_BlockType.计划);
-            }
-            else
-            {
-                blocks[i] = new Block(E_BlockType.未知);
             }
         }
         

@@ -140,7 +140,7 @@ public class Character8 : Character
     }
     public void Func()
     {
-        int id = BlockManager.Instance.playerBlocks[PlayerDataManager.Instance.playerData.stepCount].blockEvent.eventId - 1;
+        int id = PlayerDataManager.Instance.playerData.playerBlocks[PlayerDataManager.Instance.playerData.stepCount].blockEvent.eventId - 1;
         if (ExcelReader.eventData[id].eventType==E_EventType.娱乐)
         {
             //如果npc的某项数值增加，则将其再加2

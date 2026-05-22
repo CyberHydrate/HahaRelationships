@@ -26,7 +26,7 @@ public class ConfirmButton : MonoBehaviour
         string npcGenderValue = npcGender.GetFirstActiveToggle().name;
         string relationshipValue = relationship.GetFirstActiveToggle().name;
         PlayerDataManager.Instance.playerData = new PlayerData(playerName.text, npcName.text, playerGenderValue, npcGenderValue, relationshipValue, characteristic.value,  50, 100, 0f, 0, 50);
-        SaveManager.Instance.SaveData(PlayerDataManager.Instance.playerData);
+        //SaveManager.Instance.SaveData(PlayerDataManager.Instance.playerData);
         GameManager.Instance.SwitchState(GameState.Playing);
     }
 }

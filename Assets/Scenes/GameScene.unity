@@ -840,6 +840,7 @@ MonoBehaviour:
     m_Bits: 8
   rayDistance: 100
   assignEvent: 1
+  mapGenerator: {fileID: 1022403713}
 --- !u!1 &183301300
 GameObject:
   m_ObjectHideFlags: 0
@@ -1189,6 +1190,7 @@ MonoBehaviour:
     m_Bits: 8
   rayDistance: 100
   assignEvent: 2
+  mapGenerator: {fileID: 1022403713}
 --- !u!1 &256158203
 GameObject:
   m_ObjectHideFlags: 0
@@ -3988,7 +3990,7 @@ GameObject:
   - component: {fileID: 1022403714}
   - component: {fileID: 1022403713}
   m_Layer: 0
-  m_Name: MapGenerator
+  m_Name: Map Generator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4858,6 +4860,7 @@ MonoBehaviour:
     m_Bits: 8
   rayDistance: 100
   assignEvent: 3
+  mapGenerator: {fileID: 1022403713}
 --- !u!1 &1234871992
 GameObject:
   m_ObjectHideFlags: 0
@@ -5761,6 +5764,7 @@ MonoBehaviour:
     m_Bits: 8
   rayDistance: 100
   assignEvent: 4
+  mapGenerator: {fileID: 1022403713}
 --- !u!1 &1424776930
 GameObject:
   m_ObjectHideFlags: 0
@@ -6274,6 +6278,14 @@ PrefabInstance:
       propertyPath: description
       value: 
       objectReference: {fileID: 477911588}
+    - target: {fileID: 3906871379827542323, guid: 74cb6c2da5bd86548a5faa82de767380, type: 3}
+      propertyPath: blockManager
+      value: 
+      objectReference: {fileID: 1768576737}
+    - target: {fileID: 3906871379827542323, guid: 74cb6c2da5bd86548a5faa82de767380, type: 3}
+      propertyPath: mapGenerator
+      value: 
+      objectReference: {fileID: 1022403713}
     - target: {fileID: 3906871379827542323, guid: 74cb6c2da5bd86548a5faa82de767380, type: 3}
       propertyPath: eventDescription
       value: 
@@ -7467,7 +7479,7 @@ GameObject:
   - component: {fileID: 1768576738}
   - component: {fileID: 1768576737}
   m_Layer: 0
-  m_Name: BlockManager
+  m_Name: Block Invoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7485,6 +7497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bede451c2f3c65d46acadbcc73186e68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapGenerator: {fileID: 1022403713}
   eventUI: {fileID: 1358270510}
   eventName: {fileID: 2137052518}
   eventDescription: {fileID: 376340659}
@@ -8384,9 +8397,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1039280395}
+  cameraOffset: {x: 20, y: 17, z: 27}
   dragSpeed: 0.5
   minZ: -100
-  maxZ: 0
+  maxZ: 60
+  _isPlaying: 0
 --- !u!1 &1942178571
 GameObject:
   m_ObjectHideFlags: 0
@@ -8730,6 +8745,7 @@ MonoBehaviour:
     m_Bits: 8
   rayDistance: 100
   assignEvent: 0
+  mapGenerator: {fileID: 1022403713}
 --- !u!1 &2081893383
 GameObject:
   m_ObjectHideFlags: 0

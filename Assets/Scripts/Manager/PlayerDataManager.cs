@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[SerializeField]
 public class PlayerData
 {
     public string playerName;
@@ -15,6 +15,8 @@ public class PlayerData
     public int playerhp;
     public int npchp;
     public int relationshiphp;
+    public Block[] playerBlocks;
+    public Block[] npcBlocks;
     public PlayerData(string playerName, string npcName, string playerGender, string npcGender, string relationship, int characteristic, int playerhp, int npchp, float heartWallWidth, int stepCount,  int relationshiphp)
     {
         this.playerName = playerName;
@@ -29,10 +31,25 @@ public class PlayerData
         this.heartWallWidth = heartWallWidth;
         this.stepCount = stepCount;
         this.relationshiphp = relationshiphp;
+
+        playerBlocks = new Block[101];
+        npcBlocks = new Block[101];
+
+        for(int i=0;i<101;i++)
+        {
+            this.playerBlocks[i] = new Block(E_BlockType.δ֪);
+            this.npcBlocks[i] = new Block(E_BlockType.δ֪);
+        }
     }
     public PlayerData()
     {
-
+        playerBlocks = new Block[101];
+        npcBlocks = new Block[101];
+        for (int i = 0; i < 101; i++)
+        {
+            this.playerBlocks[i] = new Block(E_BlockType.δ֪);
+            this.npcBlocks[i] = new Block(E_BlockType.δ֪);
+        }
     }
 }
 public class PlayerDataManager

@@ -18,6 +18,7 @@ public class LoadButton : MonoBehaviour
             if(SaveManager.Instance.CheckSaveFile())
             {
                 SaveManager.Instance.LoadData();
+                Debug.Log(PlayerDataManager.Instance.playerData.stepCount.ToString());
                 GameManager.Instance.SwitchState(GameState.Playing);
             }
             else

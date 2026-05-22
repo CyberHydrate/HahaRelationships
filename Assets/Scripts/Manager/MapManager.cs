@@ -23,6 +23,8 @@ public class MapManager : MonoBehaviour
     public Action Init;
     public Action beforeMove;
     public Action afterMove;
+    public BlockInvoke blockManager;
+    public MapGenerator mapGenerator;
     private void Start()
     {
         //switch (Characters.characters[PlayerDataManager.Instance.playerData.characteristic].characterType)
@@ -34,11 +36,29 @@ public class MapManager : MonoBehaviour
         //        afterMove += Characters.characters[PlayerDataManager.Instance.playerData.characteristic].effect;
         //        break;
         //}
-        Init+=MapGenerator.Instance.MapInit;
-        _Move(player, MapGenerator.Instance.playerMapList);
-        _Move(npc, MapGenerator.Instance.npcMapList);
+        Init+=mapGenerator.MapInit;
         Init.Invoke();
+        _Move(player, mapGenerator.playerMapList);
+        _Move(npc, mapGenerator.npcMapList);
+        Camera.main.GetComponent<CameraFollow>().Init();
 
+        if (!SaveManager.Instance.CheckSaveFile())
+        {
+            mapGenerator.GenerateNext7BlocksWhenOnPlan(true);
+            mapGenerator.GenerateNext7BlocksWhenOnPlan(false);
+        }
+    }
+    private int GetSteps()
+    {
+        return PlayerDataManager.Instance.playerData.stepCount;
+    }
+    private Block[] GetPlayerBlocks()
+    {
+        return PlayerDataManager.Instance.playerData.playerBlocks;
+    }
+    private Block[] GetNpcBlocks()
+    {
+        return PlayerDataManager.Instance.playerData.npcBlocks;
     }
 
     private void _Move(GameObject obj, GameObject[] maplist)
@@ -49,11 +69,11 @@ public class MapManager : MonoBehaviour
     public void Move()
     {
         //currentBlock = playerBlocks[PlayerDataManager.Instance.playerData.stepCount];
-        _Move(player, MapGenerator.Instance.playerMapList);
-        BlockManager.Instance.PlayerInvokeBlock();
-        _Move(npc, MapGenerator.Instance.npcMapList);
-        BlockManager.Instance.NpcInvokeBlock();
-        afterMove.Invoke();
+        _Move(player, mapGenerator.playerMapList);
+        blockManager.PlayerInvokeBlock();
+        _Move(npc, mapGenerator.npcMapList);
+        blockManager.NpcInvokeBlock();
+        //afterMove.Invoke();
         GameOverCheck.Instance.Check();
     }
 
