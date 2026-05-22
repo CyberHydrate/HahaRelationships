@@ -109,15 +109,15 @@ public class DragPlan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         switch (assignEvent)
         {
             case E_EventType.工作:
-                return new Block(E_BlockType.事件,new WorkEvent1());
+                return WorkEventPool.GetWorkEvent();
             case E_EventType.娱乐:
-                return new Block(E_BlockType.事件,new EntertainEvent1());
+                return EntertainEventPool.GetEntertainEvent();
             case E_EventType.休息:
-                return new Block(E_BlockType.事件,new RestEvent());
+                return RestEventPool.GetRestEvent();
             case E_EventType.和ta互动:
-                return new Block(E_BlockType.事件,new InteractEvent1());
+                return InteractEventPool.GetInteractEvent();
             case E_EventType.自我提升:
-                return new Block(E_BlockType.事件,new SelfEvent1());
+                return SelfEventPool.GetSelfEvent();
             default:
                 Debug.LogError($"未知的分配事件类型：{assignEvent}");
                 return null;

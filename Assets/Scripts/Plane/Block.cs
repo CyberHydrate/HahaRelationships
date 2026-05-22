@@ -102,24 +102,27 @@ public class BlockEvent
         PlayerDataManager.Instance.playerData.relationshiphp += i;
     }
 }
-public class WorkEvent1 : BlockEvent
+public class WorkEvent1 : BlockEvent//有改动
 {
     public WorkEvent1()
     {
         eventId = 1;
-        choices = new Action[3] { () =>ChangePlayerhp(5), () => ChangePlayerhp(-1), () => ChangePlayerhp(-5) };
+        choices = new Action[3] { () =>ChangePlayerhp(5), () => { ChangePlayerhp(-1); WorkEventPool.AddEvent(new WorkEvent2()); }, () => ChangePlayerhp(-5) };
     }
 }
 
-public class WorkEvent2 : BlockEvent
+public class WorkEvent2 : BlockEvent//有改动
 {
     public WorkEvent2()
     {
         eventId = 2;
-        choices = new Action[3] { () => ChangePlayerhp(5), () => ChangePlayerhp(-1), () => ChangePlayerhp(0) };
+        choices = new Action[3] { 
+            () => { ChangePlayerhp(5); WorkEventPool.RemoveEvent(2); }, 
+            () => { ChangePlayerhp(-1); WorkEventPool.RemoveEvent(2); }, 
+            () => {ChangePlayerhp(0);WorkEventPool.RemoveEvent(2); }
+        };
 
     }
- 
 }
 
 public class WorkEvent3 : BlockEvent
