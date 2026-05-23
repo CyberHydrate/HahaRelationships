@@ -32,6 +32,6 @@ public class CharacterDropdown : MonoBehaviour
     }
     void ShowText()
     {
-        desc.text = dropdown.value != 0 ? ExcelReader.CharacterData[dropdown.value - 1].ChaDesc : "";
+        desc.text = dropdown.value != 0 ? ExcelReader.CharacterData[dropdown.value - 1].ChaEffect : "";
     }
 }
