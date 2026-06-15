@@ -1,7 +1,7 @@
 using System;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using DG.Tweening;
+
 
 public class MapManager : MonoBehaviour
 {
@@ -27,6 +27,7 @@ public class MapManager : MonoBehaviour
     public MapGenerator mapGenerator;
     private void Start()
     {
+        DOTween.Init(true, true, LogBehaviour.ErrorsOnly);
         //switch (Characters.characters[PlayerDataManager.Instance.playerData.characteristic].characterType)
         //{
         //    case E_CharacterType.≥ı º:
@@ -36,7 +37,7 @@ public class MapManager : MonoBehaviour
         //        afterMove += Characters.characters[PlayerDataManager.Instance.playerData.characteristic].effect;
         //        break;
         //}
-        Init+=mapGenerator.MapInit;
+        Init +=mapGenerator.MapInit;
         Init.Invoke();
         _Move(player, mapGenerator.playerMapList);
         _Move(npc, mapGenerator.npcMapList);
@@ -64,7 +65,8 @@ public class MapManager : MonoBehaviour
     private void _Move(GameObject obj, GameObject[] maplist)
     {
         int i = PlayerDataManager.Instance.playerData.stepCount;
-        obj.transform.position = new Vector3(maplist[i].transform.position.x, 1, maplist[i].transform.position.z);
+        obj.transform.DOMove(new Vector3(maplist[i].transform.position.x, 1, maplist[i].transform.position.z), 0.5f);
+        //obj.transform.position = new Vector3(maplist[i].transform.position.x, 1, maplist[i].transform.position.z);
     }
     public void Move()
     {

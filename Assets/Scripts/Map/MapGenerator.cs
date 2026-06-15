@@ -101,17 +101,17 @@ public class MapGenerator:MonoBehaviour
             switch (i)
             {
                 case 0:
-                    return new Block(E_BlockType.事件, new WorkEvent1());
+                    return WorkEventPool.GetWorkEvent();
                 case 1:
-                    return new Block(E_BlockType.事件, new EntertainEvent1());
+                    return EntertainEventPool.GetEntertainEvent();
                 case 2:
-                    return new Block(E_BlockType.事件, new RestEvent());
+                    return RestEventPool.GetRestEvent();
                 case 3:
-                    return new Block(E_BlockType.事件, new InteractEvent1());
+                    return InteractEventPool.GetInteractEvent();
                 case 4:
-                    return new Block(E_BlockType.事件, new SelfEvent1());
+                    return SelfEventPool.GetSelfEvent();
                 default:
-                    return new Block(E_BlockType.事件, new RestEvent());
+                    return RestEventPool.GetRestEvent();
             }
         }
         else
