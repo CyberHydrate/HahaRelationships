@@ -4,8 +4,14 @@ using System.Diagnostics;
 public enum E_BlockType
 {
     空,
-    事件,
-    重要事件,
+    工作,
+    娱乐,
+    休息,
+    和ta互动,
+    自我提升,
+    重要工作,
+    重要娱乐,
+    重要和ta互动,
     计划,
     未知
 }

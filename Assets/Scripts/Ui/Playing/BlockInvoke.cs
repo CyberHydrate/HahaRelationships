@@ -21,7 +21,23 @@ public class BlockInvoke : MonoBehaviour
         int i = PlayerDataManager.Instance.playerData.stepCount;
         if (PlayerDataManager.Instance.playerData.playerBlocks[i] != null)
         {
-            if (PlayerDataManager.Instance.playerData.playerBlocks[i].blockType == E_BlockType.事件)
+            if (PlayerDataManager.Instance.playerData.playerBlocks[i].blockType == E_BlockType.工作)
+            {
+                PlayerEventInvoke();
+            }
+            else if (PlayerDataManager.Instance.playerData.playerBlocks[i].blockType == E_BlockType.娱乐)
+            {
+                PlayerEventInvoke();
+            }
+            else if (PlayerDataManager.Instance.playerData.playerBlocks[i].blockType == E_BlockType.和ta互动)
+            {
+                PlayerEventInvoke();
+            }
+            else if (PlayerDataManager.Instance.playerData.playerBlocks[i].blockType == E_BlockType.休息)
+            {
+                PlayerEventInvoke();
+            }
+            else if (PlayerDataManager.Instance.playerData.playerBlocks[i].blockType == E_BlockType.自我提升)
             {
                 PlayerEventInvoke();
             }
@@ -29,7 +45,15 @@ public class BlockInvoke : MonoBehaviour
             {
                 PlayerPlanInvoke();
             }
-            else if (PlayerDataManager.Instance.playerData.playerBlocks[i].blockType == E_BlockType.重要事件)
+            else if (PlayerDataManager.Instance.playerData.playerBlocks[i].blockType == E_BlockType.重要工作)
+            {
+                PlayerEventInvoke();
+            }
+            else if (PlayerDataManager.Instance.playerData.playerBlocks[i].blockType == E_BlockType.重要娱乐)
+            {
+                PlayerEventInvoke();
+            }
+            else if (PlayerDataManager.Instance.playerData.playerBlocks[i].blockType == E_BlockType.重要和ta互动)
             {
                 PlayerEventInvoke();
             }
@@ -44,7 +68,7 @@ public class BlockInvoke : MonoBehaviour
         int i = PlayerDataManager.Instance.playerData.stepCount;
         if (PlayerDataManager.Instance.playerData.npcBlocks[i] != null)
         {
-            if (PlayerDataManager.Instance.playerData.npcBlocks[i].blockType == E_BlockType.事件)
+            if (PlayerDataManager.Instance.playerData.npcBlocks[i].blockType == E_BlockType.和ta互动)
             {
                 NpcEventInvoke(i);
             }
@@ -52,7 +76,7 @@ public class BlockInvoke : MonoBehaviour
             {
                 NpcPlanInvoke();
             }
-            else if (PlayerDataManager.Instance.playerData.npcBlocks[i].blockType == E_BlockType.重要事件)
+            else if (PlayerDataManager.Instance.playerData.npcBlocks[i].blockType == E_BlockType.重要和ta互动)
             {
                 NpcEventInvoke(i);
             }

@@ -10,10 +10,16 @@ public class MapGenerator:MonoBehaviour
     public GameObject planePrefab;
 
     public Material emptyMaterial;
-    public Material eventMaterial;
-    public Material importantEventMaterial;
     public Material planMaterial;
     public Material unknownMaterial;
+    public Material workMaterial;
+    public Material entertainMaterial;
+    public Material selfMaterial;
+    public Material interactMaterial;
+    public Material restMaterial;
+    public Material importantWorkMaterial;
+    public Material importantEntertainMaterial;
+    public Material importantInteractMaterial;
 
     [System.NonSerialized]
     public GameObject[] playerMapList = new GameObject[101];
@@ -66,11 +72,29 @@ public class MapGenerator:MonoBehaviour
                 case E_BlockType.空:
                     playerMapList[i].GetComponent<MeshRenderer>().material = emptyMaterial;
                     break;
-                case E_BlockType.事件:
-                    playerMapList[i].GetComponent<MeshRenderer>().material = eventMaterial;
+                case E_BlockType.工作:
+                    playerMapList[i].GetComponent<MeshRenderer>().material = workMaterial;
                     break;
-                case E_BlockType.重要事件:
-                    playerMapList[i].GetComponent<MeshRenderer>().material = importantEventMaterial;
+                case E_BlockType.娱乐:
+                    playerMapList[i].GetComponent<MeshRenderer>().material = entertainMaterial;
+                    break;
+                case E_BlockType.和ta互动:
+                    playerMapList[i].GetComponent<MeshRenderer>().material = interactMaterial;
+                    break;
+                case E_BlockType.休息:
+                    playerMapList[i].GetComponent<MeshRenderer>().material = restMaterial;
+                    break;
+                case E_BlockType.自我提升:
+                    playerMapList[i].GetComponent<MeshRenderer>().material = selfMaterial;
+                    break;
+                case E_BlockType.重要工作:
+                    playerMapList[i].GetComponent<MeshRenderer>().material = importantWorkMaterial;
+                    break;
+                case E_BlockType.重要娱乐:
+                    playerMapList[i].GetComponent<MeshRenderer>().material = importantEntertainMaterial;
+                    break;
+                case E_BlockType.重要和ta互动:
+                    playerMapList[i].GetComponent<MeshRenderer>().material = importantInteractMaterial;
                     break;
                 case E_BlockType.计划:
                     playerMapList[i].GetComponent<MeshRenderer>().material = planMaterial;
@@ -123,23 +147,35 @@ public class MapGenerator:MonoBehaviour
                 switch (i)
                 {
                     case 0:
-                        return new Block(E_BlockType.事件, new WorkEvent1());
+                        return WorkEventPool.GetWorkEvent();
                     case 1:
-                        return new Block(E_BlockType.事件, new EntertainEvent1());
+                        return EntertainEventPool.GetEntertainEvent();
                     case 2:
-                        return new Block(E_BlockType.事件, new RestEvent());
+                        return RestEventPool.GetRestEvent();
                     case 3:
-                        return new Block(E_BlockType.事件, new InteractEvent1());
+                        return InteractEventPool.GetInteractEvent();
                     case 4:
-                        return new Block(E_BlockType.事件, new WorkEvent10());
+                        return SelfEventPool.GetSelfEvent();
                     default:
-                        return new Block(E_BlockType.事件, new RestEvent());
+                        return RestEventPool.GetRestEvent();
                 }
             }
             else
             {
                 Debug.Log("Important");
-                return new Block(E_BlockType.重要事件, new RestEvent());
+                int i = Random.Range(0, 3);
+                switch (i) 
+                {
+                    case 0:
+                        return ImportantWorkEventPool.GetImportantWorkEvent();
+                    case 1:
+                        return ImportantEntertainEventPool.GetImportantEntertainEvent();
+                    case 2:
+                        return ImportantInteractEventPool.GetImportantInteractEvent();
+                    default:
+                        return ImportantEntertainEventPool.GetImportantEntertainEvent();
+                }
+
             }
         }
     }
