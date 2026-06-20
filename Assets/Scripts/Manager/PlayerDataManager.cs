@@ -15,9 +15,29 @@ public class PlayerData
     public int playerhp;
     public int npchp;
     public int relationshiphp;
+    public int workcount;
+    public int entertainmentcount;
+    public int restcount;
+    public int interactcount;
+    public int selfimprovecount;
     public Block[] playerBlocks;
     public Block[] npcBlocks;
-    public PlayerData(string playerName, string npcName, string playerGender, string npcGender, string relationship, int characteristic, int playerhp, int npchp, float heartWallWidth, int stepCount,  int relationshiphp)
+    public PlayerData(string playerName,
+        string npcName,
+        string playerGender,
+        string npcGender,
+        string relationship,
+        int characteristic,
+        int playerhp,
+        int npchp,
+        float heartWallWidth,
+        int stepCount,
+        int relationshiphp,
+        int workcount,
+        int entertainmentcount,
+        int restcount,
+        int interactcount,
+        int selfimprovecount)
     {
         this.playerName = playerName;
         this.npcName = npcName;
@@ -35,11 +55,17 @@ public class PlayerData
         playerBlocks = new Block[101];
         npcBlocks = new Block[101];
 
-        for(int i=0;i<101;i++)
+        for (int i = 0; i < 101; i++)
         {
             this.playerBlocks[i] = new Block(E_BlockType.δ֪);
             this.npcBlocks[i] = new Block(E_BlockType.δ֪);
         }
+
+        this.workcount = workcount;
+        this.entertainmentcount = entertainmentcount;
+        this.restcount = restcount;
+        this.interactcount = interactcount;
+        this.selfimprovecount = selfimprovecount;
     }
     public PlayerData()
     {

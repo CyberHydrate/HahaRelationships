@@ -1,9 +1,10 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class DragPlan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    
+
     [Header("射线设置")]
     public LayerMask targetLayer;   // 要检测的场景层级
     public float rayDistance = 100f;
@@ -14,15 +15,117 @@ public class DragPlan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private Canvas _canvas;
     private Vector2 _offset;
     public MapGenerator mapGenerator;
-
+    bool candrag;
+    public TextMeshProUGUI count;
     void Awake()
     {
         _canvas = GetComponentInParent<Canvas>();
+        
+        UpdateCount();
     }
+    public void UpdateCount()
+    {
+        switch(assignEvent)
+        {
+            case E_EventType.工作:
+                count.text = PlayerDataManager.Instance.playerData.workcount.ToString();
+                break;
+            case E_EventType.娱乐:
+                count.text = PlayerDataManager.Instance.playerData.entertainmentcount.ToString();
+                break;
+            case E_EventType.休息:
+                count.text = PlayerDataManager.Instance.playerData.restcount.ToString();
+                break;
+            case E_EventType.和ta互动:
+                count.text = PlayerDataManager.Instance.playerData.interactcount.ToString();
+                break;
+            case E_EventType.自我提升:
+                count.text = PlayerDataManager.Instance.playerData.selfimprovecount.ToString();
+                break;
+        }
+    }
+    void DeleteCount()
+    {
+        switch (assignEvent)
+        {
+            case E_EventType.工作:
+                if (candrag)
+                    PlayerDataManager.Instance.playerData.workcount--;
+                break;
+            case E_EventType.娱乐:
+                if (candrag)
+                    PlayerDataManager.Instance.playerData.entertainmentcount--;
+                break;
+            case E_EventType.休息:
+                if (candrag)
+                    PlayerDataManager.Instance.playerData.restcount--;
+                break;
+            case E_EventType.和ta互动:
+                if (candrag)
+                    PlayerDataManager.Instance.playerData.interactcount--;
+                break;
+            case E_EventType.自我提升:
+                if (candrag)
+                    PlayerDataManager.Instance.playerData.selfimprovecount--;
+                break;
+        }
+    }
+    bool CheckCount(E_EventType eventType)
+    {
+        switch (eventType)
+        {
+            case E_EventType.工作:
+                if (PlayerDataManager.Instance.playerData.workcount <= 0)
+                {
+                    Debug.LogWarning("工作次数已空！");
+                    return false;
+                }
+                break;
 
+            case E_EventType.娱乐:
+                if (PlayerDataManager.Instance.playerData.entertainmentcount <= 0)
+                {
+                    Debug.LogWarning("娱乐次数已空！");
+                    return false;
+                }
+                break;
+
+            case E_EventType.休息:
+                if (PlayerDataManager.Instance.playerData.restcount <= 0)
+                {
+                    Debug.LogWarning("休息次数已空！");
+                    return false;
+                }    
+                break;
+
+            case E_EventType.和ta互动:
+                if (PlayerDataManager.Instance.playerData.interactcount <= 0)
+                {
+                    Debug.LogWarning("和ta互动次数已空！");
+                    return false;
+                }
+                break;
+
+            case E_EventType.自我提升:
+                if (PlayerDataManager.Instance.playerData.selfimprovecount <= 0)
+                {
+                    Debug.LogWarning("自我提升次数已空！");
+                    return false;
+                }
+                break;
+
+            default:
+                Debug.LogError($"未知的事件类型：{eventType}");
+                return false;
+        }
+        UpdateCount();
+        return true;
+    }
     // 开始拖拽：生成克隆UI
     public void OnBeginDrag(PointerEventData eventData)
     {
+        candrag = CheckCount(assignEvent);
+        if (!candrag) return;
         // 克隆本体UI
         _dragClone = Instantiate(gameObject, transform.parent);
         _cloneRect = _dragClone.GetComponent<RectTransform>();
@@ -44,6 +147,7 @@ public class DragPlan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     // 拖拽移动克隆体
     public void OnDrag(PointerEventData eventData)
     {
+        if (!candrag) return;
         if (_dragClone == null) return;
 
         Camera cam = GetUICamera();
@@ -60,6 +164,7 @@ public class DragPlan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     // 松手：发射射线检测场景物体 + 销毁克隆UI
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!candrag) return;
         // 1. 从松手的屏幕位置发射3D射线
         Ray ray = Camera.main.ScreenPointToRay(eventData.position);
         if (Physics.Raycast(ray, out RaycastHit hit, rayDistance, targetLayer))
@@ -67,9 +172,11 @@ public class DragPlan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             // 拿到击中的物体
             GameObject hitObj = hit.collider.gameObject;
             int id = hitObj.GetComponent<blockID>().id;
-            Debug.Log($"击中场景物体：{hitObj.name} | 标签：{hitObj.tag}|序号：{id},地块类型为{   PlayerDataManager.Instance.playerData.playerBlocks[id].blockType.ToString()}");
-            if (PlayerDataManager.Instance.playerData.playerBlocks[id].blockType==E_BlockType.空)
-            SetEvent(id, hitObj.tag);
+            Debug.Log($"击中场景物体：{hitObj.name} | 标签：{hitObj.tag}|序号：{id},地块类型为{PlayerDataManager.Instance.playerData.playerBlocks[id].blockType.ToString()}");
+            if (PlayerDataManager.Instance.playerData.playerBlocks[id].blockType == E_BlockType.空)
+            {
+                SetEvent(id, hitObj.tag);
+            }
         }
         else
         {
@@ -95,14 +202,16 @@ public class DragPlan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         if (tag == "Player")
         {
-            PlayerDataManager.Instance.playerData.playerBlocks[id] =Assign(assignEvent);
+            PlayerDataManager.Instance.playerData.playerBlocks[id] = Assign(assignEvent);
             mapGenerator.SetMap();
         }
         else if (tag == "Npc")
         {
-            PlayerDataManager.Instance.playerData.npcBlocks[id] =Assign(assignEvent);
+            PlayerDataManager.Instance.playerData.npcBlocks[id] = Assign(assignEvent);
             mapGenerator.SetMap();
         }
+        DeleteCount();
+        UpdateCount();
     }
     private Block Assign(E_EventType assignEvent)
     {

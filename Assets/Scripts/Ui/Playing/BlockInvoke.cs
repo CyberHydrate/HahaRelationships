@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,6 +8,11 @@ using UnityEngine.UI;
 public class BlockInvoke : MonoBehaviour
 {
     public MapGenerator mapGenerator;
+    public DragPlan dragPlan1;
+    public DragPlan dragPlan2;
+    public DragPlan dragPlan3;
+    public DragPlan dragPlan4;
+    public DragPlan dragPlan5;
     [Header("ÊÂ¼þ")]
     public GameObject eventUI;
     public TextMeshProUGUI eventName;
@@ -128,6 +134,15 @@ public class BlockInvoke : MonoBehaviour
     }
     private void PlayerPlanInvoke()
     {
+        PlayerDataManager.Instance.playerData.workcount = 5;
+        PlayerDataManager.Instance.playerData.entertainmentcount = 2;
+        PlayerDataManager.Instance.playerData.restcount = 2;
+        PlayerDataManager.Instance.playerData.interactcount = 1;
+        dragPlan1.UpdateCount();
+        dragPlan2.UpdateCount();
+        dragPlan3.UpdateCount();
+        dragPlan4.UpdateCount();
+        dragPlan5.UpdateCount();
         scheduleUI.SetActive(true);
         mapGenerator.GenerateNext7BlocksWhenOnPlan(true);
     }
