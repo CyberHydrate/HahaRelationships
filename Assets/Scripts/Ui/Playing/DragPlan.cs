@@ -70,8 +70,10 @@ public class DragPlan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                 break;
         }
     }
-    bool CheckCount(E_EventType eventType)
+    bool Check(E_EventType eventType)
     {
+        if (PlayerDataManager.Instance.playerData.stepCount % 7 != 0)
+            return false;
         switch (eventType)
         {
             case E_EventType.工作:
@@ -124,7 +126,7 @@ public class DragPlan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     // 开始拖拽：生成克隆UI
     public void OnBeginDrag(PointerEventData eventData)
     {
-        candrag = CheckCount(assignEvent);
+        candrag = Check(assignEvent);
         if (!candrag) return;
         // 克隆本体UI
         _dragClone = Instantiate(gameObject, transform.parent);

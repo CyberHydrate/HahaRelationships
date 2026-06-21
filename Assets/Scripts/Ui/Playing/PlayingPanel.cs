@@ -21,9 +21,17 @@ public class PlayingPanel : MonoBehaviour
     }
     void OnStateChanged(GameState state)
     {
-        if(state==GameState.GameOver)
-        eventContent.SetActive(false);
-        planContent.SetActive(false);
+        if (state == GameState.GameOver)
+        {
+            eventContent.SetActive(false);
+            planContent.SetActive(false);
+        }
+        if (state == GameState.Playing)
+        {
+            eventContent.SetActive(false);
+            if (PlayerDataManager.Instance.playerData.stepCount % 7 == 0)
+                planContent.SetActive(true);
+        }
     }
 
 }
