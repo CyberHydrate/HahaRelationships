@@ -185,6 +185,8 @@ public class MapGenerator:MonoBehaviour
         GenerateMap();
         InitFixedPlanBlocks(PlayerDataManager.Instance.playerData.playerBlocks);//生成日程格
         InitFixedPlanBlocks(PlayerDataManager.Instance.playerData.npcBlocks);
+        if(PlayerDataManager.Instance.playerData.stepCount==0)
+        GenerateNext7BlocksWhenOnPlan(true);
         SetMap();
     }
     public void GenerateMap()
