@@ -95,6 +95,7 @@ public class BlockInvoke : MonoBehaviour
     private void PlayerEventInvoke()
     {
         int id = PlayerDataManager.Instance.playerData.playerBlocks[PlayerDataManager.Instance.playerData.stepCount].blockEvent.eventId - 1;
+        Debug.Log(ExcelReader.eventData[id].eventName + ExcelReader.eventData[id].choiceCount);
         for (int i = 0; i < 5; i++)
         {
             if (i >= ExcelReader.eventData[id].choiceCount)

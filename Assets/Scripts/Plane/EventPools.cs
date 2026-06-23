@@ -14,7 +14,6 @@ public static class WorkEventPool
         e is WorkEvent1
         or WorkEvent2
         or WorkEvent3
-        or WorkEvent4
         or WorkEvent5
         or WorkEvent6
         or WorkEvent7

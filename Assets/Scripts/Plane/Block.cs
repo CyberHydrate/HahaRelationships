@@ -495,7 +495,7 @@ public class InteractEvent10 : BlockEvent
     public InteractEvent10()
     {
         eventId = 38;
-        choices = new Action[1] { () =>ChangePlayerhp(2) };
+        choices = new Action[4] { () =>ChangePlayerhp(2), () =>ChangePlayerhp(6), () =>ChangePlayerhp(3), () =>ChangePlayerhp(10) };
 
     }
 }
